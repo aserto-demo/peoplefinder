@@ -1,0 +1,10 @@
+{
+  "domain": "{DOMAIN}",
+  "clientId": "{CLIENT_ID}",
+  "audience": "{API_IDENTIFIER}",
+  "authorizerServiceUrl": "{AUTHORIZER_SERVICE_URL}",
+  "policyServiceUrl": "{POLICY_SERVICE_URL}",
+  "applicationName": "{APPLICATION_NAME}"
+  "directoryClientId": "{AUTH0_M2MAPP_CLIENT_ID}",
+  "directoryClientSecret": "{AUTH0_M2MAPP_CLIENT_SECRET}"
+}

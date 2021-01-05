@@ -1,0 +1,30 @@
+.spinner {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+  background-color: white;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.page-header {
+  display: flex;
+  flex-wrap: wrap;
+  /*z-index: 1;
+  position: sticky;
+  top: 20px;*/
+  padding-top: 5px;
+  padding-bottom: 5px;
+  background: white;
+}
+
+.page-title {
+  margin-left: 15px;
+  margin-bottom: 15px;
+  vertical-align: middle;
+  line-height: 1.5em;
+}
