@@ -73,7 +73,7 @@ export const UsersView = () => {
       <PageHeader title={pageTitle} load={load} loading={loading}>
         <FormControl style={{
           width: 220,
-          marginLeft: 120,
+          marginLeft: 107,
           }}
           placeholder="Filter"
           value={filter} 

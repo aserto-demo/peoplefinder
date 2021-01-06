@@ -58,11 +58,11 @@ const UserView = () => {
 
   useEffect(() => {
     // only retrieve the users if the user has the right permissions
-    if (!user && !error && displayState.visible) {
+    if (!error && displayState.visible) {
       load();
     }
   //eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [id]);
 
   if (error) {
     return (

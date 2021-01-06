@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { withRouter } from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
+import { withRouter, Link } from 'react-router-dom'
 import { Container, Row, Col, InputGroup, FormControl, Modal } from 'react-bootstrap'
 import { useAuth0 } from '@auth0/auth0-react'
 import { useAserto } from '@aserto/aserto-react'
@@ -21,11 +21,37 @@ const UserDetails = withRouter(({user, setUser, history}) => {
   const [showDetail, setShowDetail] = useState(false);
   const [editing, setEditing] = useState(false);   // edit name property
   const [updating, setUpdating] = useState(false); // update title and dept
-  const [department, setDepartment] = useState((user.department) || '');
-  const [title, setTitle] = useState((user.title) || '');
-  const [name, setName] = useState((user.name) || '');
-  const [email, setEmail] = useState((user.email) || '');
+  const [name, setName] = useState();
+  const [email, setEmail] = useState();
+  const [department, setDepartment] = useState();
+  const [title, setTitle] = useState();
+  const [managerName, setManagerName] = useState();
   const [error, setError] = useState();
+
+  // load the manager name
+  useEffect(() => {
+    const loadManagerName = async (managerId) => {
+      try {
+        const token = await getAccessTokenSilently();
+        const response = await fetch(`${apiOrigin}/api/users/${managerId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+        });
+  
+        const userData = await response.json();
+        setManagerName(userData && userData.display_name);
+      } catch (error) {
+        setManagerName(user && user.display_name);
+      }
+    };
+
+    if (user && user.attr && user.attr.manager) {
+      loadManagerName(user.attr.manager);
+    }
+  //eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user && user.attr && user.attr.manager]);
 
   const update = async (method) => {
     try {
@@ -83,6 +109,10 @@ const UserDetails = withRouter(({user, setUser, history}) => {
     } else {
       // set update mode
       setter(true);
+      setEmail(user.email || '');
+      setName(user.name || '');
+      setDepartment(user.department || '');
+      setTitle(user.title || '');
     }
   };
 
@@ -117,10 +147,10 @@ const UserDetails = withRouter(({user, setUser, history}) => {
   const hide = () => {
     // reset state
     setError(null);
-    setDepartment(user.department);
-    setTitle(user.title);
     setName(user.name);
     setEmail(user.email);
+    setDepartment(user.department);
+    setTitle(user.title);
   };
   
   const resourceState = resourceMap(resourcePath);
@@ -164,8 +194,8 @@ const UserDetails = withRouter(({user, setUser, history}) => {
               </InputGroup>        
             </div> :
             <div>
-              <h2>{name}</h2>
-              <p className="lead text-muted">{email}</p>
+              <h2>{user.name}</h2>
+              <p className="lead text-muted">{user.email}</p>
             </div>
           }
         </Col>
@@ -217,7 +247,7 @@ const UserDetails = withRouter(({user, setUser, history}) => {
               <h4>Department:</h4>
             </Col>
             <Col md>
-              <p className="lead text-muted">{department}</p>
+              <p className="lead text-muted">{user.department}</p>
             </Col>
           </Row>
           <Row>
@@ -225,12 +255,23 @@ const UserDetails = withRouter(({user, setUser, history}) => {
               <h4>Title:</h4>
             </Col>
             <Col md>
-              <p className="lead text-muted">{title}</p>
+              <p className="lead text-muted">{user.title}</p>
             </Col>
           </Row>
-
+          <Row>
+            <Col md={2}>
+              <h4>Manager:</h4>
+            </Col>
+            <Col md>
+              <Link to={`/people/${user.attr.manager}`} className="lead text-muted">
+                {managerName || user.attr.manager}
+              </Link>
+            </Col>
+          </Row>
         </div>
       }
+
+      <br />
 
       <Row>
         <Col md={2}>
