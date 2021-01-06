@@ -5,7 +5,7 @@ import { useAuth0 } from '@auth0/auth0-react'
 import { useAserto } from '@aserto/aserto-react'
 
 import history from './utils/history'
-import config from './utils/auth_config.json'
+import config from './config/auth_config.json'
 
 import Loading from './components/Loading'
 import NavBar from './components/NavBar'

@@ -1,4 +1,4 @@
-const authConfig = require("../src/utils/auth_config.json");
+const authConfig = require("../config/auth_config.json");
 
 if (!authConfig || !authConfig.domain || !authConfig.audience || !authConfig.authorizerServiceUrl) {
   throw new Error(
@@ -12,7 +12,7 @@ const port = process.env.API_PORT || 3001;
 const appPort = process.env.SERVER_PORT || 3000;
 const appOrigin = authConfig.appOrigin || `http://localhost:${appPort}`;
 const authorizerServiceUrl = authConfig.authorizerServiceUrl || 'https://localhost:8383';
-const applicationName = authConfig.applicationName || 'console';
+const applicationName = authConfig.applicationName || 'peoplefinder';
 const directoryClientId = authConfig.directoryClientId;
 const directoryClientSecret = authConfig.directoryClientSecret;
 

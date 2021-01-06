@@ -37,7 +37,7 @@ You will need to [create an API](https://auth0.com/docs/apis) using the [managem
 
 The project needs to be configured with your Auth0 domain and client ID in order for the authentication flow to work.
 
-To do this, first copy `src/auth_config.json.example` into a new file in the same folder called `src/auth_config.json`, and replace the values with your own Auth0 application credentials, and optionally the base URLs of your application and API:
+To do this, first copy `config/auth_config.json.example` into a new file in the same folder called `config/auth_config.json`, and replace the values with your own Auth0 application credentials, and optionally the base URLs of your application and API:
 
 ```json
 {
@@ -45,6 +45,7 @@ To do this, first copy `src/auth_config.json.example` into a new file in the sam
   "clientId": "{YOUR AUTH0 CLIENT ID}",
   "audience": "{YOUR AUTH0 API_IDENTIFIER}",
   "authorizerServiceUrl": "{URL FOR YOUR ASERTO AUTHORIZER SERVICE (default: https://localhost:8383)}",
+  "applicationName": "{OPTIONAL: APPLICATION NAME (default: peoplefinder)}",
   "appOrigin": "{OPTIONAL: THE BASE URL OF YOUR APPLICATION (default: http://localhost:3000)}",
   "apiOrigin": "{OPTIONAL: THE BASE URL OF YOUR API (default: http://localhost:3001)}"
 }

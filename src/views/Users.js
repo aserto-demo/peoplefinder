@@ -8,7 +8,7 @@ import Loading from '../components/Loading'
 import PageHeader from '../components/PageHeader'
 import UserList from '../components/UserList'
 
-import config from '../utils/auth_config.json'
+import config from '../config/auth_config.json'
 const { apiOrigin = "http://localhost:3001" } = config;
 
 export const UsersView = () => {
