@@ -2,17 +2,17 @@
 # yarn lockfile v1
 
 
-"@aserto/aserto-react@0.1.32":
-  version "0.1.32"
-  resolved "https://registry.yarnpkg.com/@aserto/aserto-react/-/aserto-react-0.1.32.tgz#d6780f985d86be2c1ee9aa4176995beb32a00db9"
-  integrity sha512-wEDnvcXt8ySkKBLz+3YLQnXx6zKsKoSMxMeR/K0JJmgOWt2v+q2YxNXt2E8pqxY7kzvx7W2JCCEGrIaW+b96Ug==
+"@aserto/aserto-react@0.1.43":
+  version "0.1.43"
+  resolved "https://registry.yarnpkg.com/@aserto/aserto-react/-/aserto-react-0.1.43.tgz#f73134b4573d325a64ee99d27702c77e4d3dfb80"
+  integrity sha512-ChYRfWlden0R+hCLA0j7AgmANs68ALY5t9DR0ThsvSFRKi4r4aTDT2FR5ktpV04W9B9yJRaehbT2apvoD5vUow==
   dependencies:
-    "@aserto/aserto-spa-js" "^0.1.18"
+    "@aserto/aserto-spa-js" "^0.1.23"
 
-"@aserto/aserto-spa-js@^0.1.18":
-  version "0.1.18"
-  resolved "https://registry.yarnpkg.com/@aserto/aserto-spa-js/-/aserto-spa-js-0.1.18.tgz#0f99d94b7c2dc0cf5e22a89c4388c03ddc655ec4"
-  integrity sha512-SVmKdROd2YfDAUnkS3ArLZ9XLzIu6CD9WFDXmcM5jtGHg2VO2oXlezZ8WIVeLShSjVGr6QEvndh7ttXFFQZJkg==
+"@aserto/aserto-spa-js@^0.1.23":
+  version "0.1.23"
+  resolved "https://registry.yarnpkg.com/@aserto/aserto-spa-js/-/aserto-spa-js-0.1.23.tgz#f866c63dc3e5bab41caf3400887eee976d610bc5"
+  integrity sha512-a7Hj1zNmLw+n8yPdW66fP0hXp8V0/pB4DIFeNdGeVH57uZeYN6F1BX1PeLNYVKYIgD1yuHcztmoFTF4dLRFjXg==
 
 "@auth0/auth0-react@^1.2.0":
   version "1.2.0"
@@ -3473,7 +3473,7 @@ class-utils@^0.3.5:
     isobject "^3.0.0"
     static-extend "^0.1.1"
 
-classnames@^2.2.5, classnames@^2.2.6:
+classnames@^2.2.6:
   version "2.2.6"
   resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.2.6.tgz#43935bffdd291f326dad0a205309b38d00f650ce"
   integrity sha512-JR/iSQOSt+LQIWwrwEzJ9uk0xfN3mTVYMwt1Ir5mUcSN6pU+V4zQFFaJsclJbPuAUQH+yfWef6tm7l1quW3C8Q==
@@ -5125,10 +5125,10 @@ expect@^26.6.0, expect@^26.6.2:
     jest-message-util "^26.6.2"
     jest-regex-util "^26.0.0"
 
-express-jwt-aserto@1.0.22:
-  version "1.0.22"
-  resolved "https://registry.yarnpkg.com/express-jwt-aserto/-/express-jwt-aserto-1.0.22.tgz#237e16af8dcdea4a8875d8523d6bed071dbbce44"
-  integrity sha512-dWyP0ry+drZgTGmEIK24+l4KxHE4rdcskwF+u/I32PpQRhJLQQA6cU4b+5uwYR1xKXiEpPIp/d3XnofJBnY0mA==
+express-jwt-aserto@1.0.25:
+  version "1.0.25"
+  resolved "https://registry.yarnpkg.com/express-jwt-aserto/-/express-jwt-aserto-1.0.25.tgz#c2d8778625deaaba8a3531f61d04debff15d0231"
+  integrity sha512-TxAmWFIHMDrZBIqOtPexsjL77EfQweuPsohodKB4V0+8wICpdUjq22xyZwtTgOTOKgQ+hGx9CsXEk2sX9cHyLg==
   dependencies:
     axios "^0.21.1"
 
@@ -9782,15 +9782,6 @@ react-app-polyfill@^2.0.0:
     regenerator-runtime "^0.13.7"
     whatwg-fetch "^3.4.1"
 
-react-bootstrap-table-next@^4.0.3:
-  version "4.0.3"
-  resolved "https://registry.yarnpkg.com/react-bootstrap-table-next/-/react-bootstrap-table-next-4.0.3.tgz#b55873b01adfe22a7181904b784a9d24ac2822cf"
-  integrity sha512-uKxC73qUdUfusRf2uzDfMiF9LvTG5vuhTZa0lbAgHWSLLLaKTsI0iHf1e4+c7gP71q8dFsp7StvkP65SxC1JRg==
-  dependencies:
-    classnames "^2.2.5"
-    react-transition-group "^4.2.0"
-    underscore "1.9.1"
-
 react-bootstrap@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/react-bootstrap/-/react-bootstrap-1.4.0.tgz#806a8b48b065cedfb28c6c5c7b0c0e3c3b53445d"
@@ -9988,7 +9979,7 @@ react-scripts@4.0.1:
   optionalDependencies:
     fsevents "^2.1.3"
 
-react-transition-group@^4.2.0, react-transition-group@^4.4.1:
+react-transition-group@^4.4.1:
   version "4.4.1"
   resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-4.4.1.tgz#63868f9325a38ea5ee9535d828327f85773345c9"
   integrity sha512-Djqr7OQ2aPUiYurhPalTrVy9ddmFCCzwhqQmtN+J3+3DzLO209Fdr70QrN8Z3DsglWql6iY1lDWAfpFiBtuKGw==
@@ -11683,11 +11674,6 @@ undefsafe@^2.0.3:
   integrity sha512-nrXZwwXrD/T/JXeygJqdCO6NZZ1L66HrxM/Z7mIq2oPanoN0F1nLx3lwJMu6AwJY69hdixaFQOuoYsMjE5/C2A==
   dependencies:
     debug "^2.2.0"
-
-underscore@1.9.1:
-  version "1.9.1"
-  resolved "https://registry.yarnpkg.com/underscore/-/underscore-1.9.1.tgz#06dce34a0e68a7babc29b365b8e74b8925203961"
-  integrity sha512-5/4etnCkd9c8gwgowi5/om/mYO5ajCaOgdzj/oW+0eQV9WxKBDZw5+ycmKmeaTXjInS/W0BzpGLo2xR2aBwZdg==
 
 unfetch@^4.2.0:
   version "4.2.0"

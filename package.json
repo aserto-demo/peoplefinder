@@ -1,9 +1,9 @@
 {
-  "name": "admin-console-sample",
+  "name": "peoplefinder",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@aserto/aserto-react": "0.1.32",
+    "@aserto/aserto-react": "0.1.43",
     "@auth0/auth0-react": "^1.2.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.32",
     "@fortawesome/free-solid-svg-icons": "^5.15.1",
@@ -15,7 +15,7 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "express-jwt": "^6.0.0",
-    "express-jwt-aserto": "1.0.22",
+    "express-jwt-aserto": "1.0.25",
     "font-awesome": "^4.7.0",
     "helmet": "^4.3.1",
     "highlight.js": "^10.5.0",
@@ -24,7 +24,6 @@
     "npm-run-all": "^4.1.5",
     "react": "^17.0.1",
     "react-bootstrap": "^1.4.0",
-    "react-bootstrap-table-next": "^4.0.3",
     "react-dom": "^17.0.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.1",

@@ -1,6 +1,6 @@
 {
-  "short_name": "Admin Console",
-  "name": "Aserto Admin Console Sample",
+  "short_name": "PeopleFinder",
+  "name": "PeopleFinder",
   "icons": [
     {
       "src": "favicon.ico",

@@ -19,7 +19,7 @@ const onRedirectCallback = async (appState) => {
   history.push(
     appState && appState.returnTo !== '/'
       ? appState.returnTo
-      : '/users' //window.location.pathname
+      : '/people' //window.location.pathname
   );
 };
 
@@ -35,7 +35,7 @@ ReactDOM.render(
       <AsertoProvider>
         <App />
       </AsertoProvider>
-    </Auth0Provider>,
+    </Auth0Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );

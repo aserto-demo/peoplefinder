@@ -18,7 +18,7 @@ const UserView = () => {
   const [error, setError] = useState();
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState();
-  const pageTitle = user ? user.nickname : '';
+  const pageTitle = user ? user.name : '';
   const displayState = resourceMap('/users').GET;
 
   const load = async () => {
@@ -32,8 +32,22 @@ const UserView = () => {
         },
       });
 
-      const responseData = await response.json();
-      setUser(responseData);
+      const userData = await response.json();
+
+      // augment userData
+      if (!userData.user_id) {
+        // aserto style result
+        userData.name = userData.display_name;
+        userData.title = userData.attr.title;
+        userData.department = userData.attr.department;
+      } else {
+        // auth0 style result
+        userData.id = userData.user_id;
+        userData.name = userData.nickname;
+        userData.title = userData.user_metadata.title;
+        userData.department = userData.user_metadata.department;
+      }
+      setUser(userData);
       setLoading(false);
     } catch (error) {
       setUser(null);
@@ -72,8 +86,8 @@ const UserView = () => {
     <Container>
       <PageHeader 
         title={pageTitle}
-        breadcrumbText='Users'
-        breadcrumbUrl='/users'
+        breadcrumbText='People'
+        breadcrumbUrl='/people'
         load={load} loading={loading} />
       <UserDetails user={user} setUser={setUser} />
     </Container> :

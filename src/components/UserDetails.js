@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { withRouter } from 'react-router-dom'
-import { Container, Row, Col, InputGroup, FormControl } from 'react-bootstrap'
+import { Container, Row, Col, InputGroup, FormControl, Modal } from 'react-bootstrap'
 import { useAuth0 } from '@auth0/auth0-react'
 import { useAserto } from '@aserto/aserto-react'
 import { Button } from './Button'
@@ -12,49 +12,77 @@ const { apiOrigin = "http://localhost:3001" } = config;
 // access map resource path
 const resourcePath = '/users/__id';
 
+const attrKey = 'attr';
+// const attrKey = 'user_metadata'; //auth0
+
 const UserDetails = withRouter(({user, setUser, history}) => {
   const { getAccessTokenSilently } = useAuth0();
   const { resourceMap } = useAserto();
   const [showDetail, setShowDetail] = useState(false);
-  const [updating, setUpdating] = useState(false);
-  const [department, setDepartment] = useState((user.user_metadata && user.user_metadata.department) || '');
-  const [title, setTitle] = useState((user.user_metadata && user.user_metadata.title) || '');
+  const [editing, setEditing] = useState(false);   // edit name property
+  const [updating, setUpdating] = useState(false); // update title and dept
+  const [department, setDepartment] = useState((user.department) || '');
+  const [title, setTitle] = useState((user.title) || '');
+  const [name, setName] = useState((user.name) || '');
+  const [email, setEmail] = useState((user.email) || '');
   const [error, setError] = useState();
 
-  const updateUser = () => {
-    const update = async () => {
-      try {
-        const token = await getAccessTokenSilently();
-        const body = { 
-          user_metadata: {
-            department,
-            title
-          }
-        };
-        const response = await fetch(`${apiOrigin}/api/users/${user.user_id}`, {
-          body: JSON.stringify(body),
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          },
-          method: 'PUT'
-        });
-  
-        const responseData = await response.json();
-        setUser(responseData);
-      } catch (error) {
-        setUser(null);
-        setError(error);
+  const update = async (method) => {
+    try {
+      const token = await getAccessTokenSilently();
+
+      // prepare the payload
+      const body = { ...user, display_name: name, email };
+      body[attrKey] = { ...user[attrKey], department, title };
+      delete body.name;
+      delete body.department;
+      delete body.title;
+
+      const response = await fetch(`${apiOrigin}/api/users/${user.id}`, {
+        body: JSON.stringify(body),
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        method
+      });
+
+      if (!response.ok) {
+        const responseData = await response.text();
+        setError(responseData);
+        return;
       }
-    };  
-    
+
+      const userData = await response.json();
+      // augment userData
+      if (!userData.user_id) {
+        // aserto style result
+        userData.name = userData.display_name;
+        userData.title = userData.attr.title;
+        userData.department = userData.attr.department;
+      } else {
+        // auth0 style result
+        userData.id = userData.user_id;
+        userData.name = userData.nickname;
+        userData.title = userData.user_metadata.title;
+        userData.department = userData.user_metadata.department;
+      }        
+      setUser(userData);
+    } catch (error) {
+      setUser(null);
+      setError(error);
+    }
+  };  
+
+  // used for both edit and update (PUT and POST)
+  const updateUser = (getter, setter, method) => {
     // if in update mode, call the update function
-    if (updating) {
-      setUpdating(false);
-      update();
+    if (getter) {
+      setter(false);
+      update(method);
     } else {
       // set update mode
-      setUpdating(true);
+      setter(true);
     }
   };
 
@@ -70,8 +98,14 @@ const UserDetails = withRouter(({user, setUser, history}) => {
           method: 'DELETE'
         });
   
+        if (!response.ok) {
+          const responseData = await response.text();
+          setError(responseData);
+          return;
+        }
+  
         await response.json();
-        history.push('/users');        
+        history.push('/people');        
       } catch (error) {
         setUser(null);
         setError(error);
@@ -80,21 +114,21 @@ const UserDetails = withRouter(({user, setUser, history}) => {
     del();
   };
 
-  if (error) {
-    return (
-      <Container className="mb-5">
-        <h1>Error</h1>
-        <Highlight>{JSON.stringify(error, null, 2)}</Highlight>
-      </Container>
-    )
-  }
+  const hide = () => {
+    // reset state
+    setError(null);
+    setDepartment(user.department);
+    setTitle(user.title);
+    setName(user.name);
+    setEmail(user.email);
+  };
   
   const resourceState = resourceMap(resourcePath);
   if (!resourceState.GET.visible) {
     return (
       <Container className="mb-5">
-        <h1>Error</h1>
-        <h2>You don't have sufficient permissions to view this user.</h2>
+        <h2>Error</h2>
+        <h3>You don't have sufficient permissions to view this user.</h3>
       </Container>
     )
   }
@@ -113,43 +147,70 @@ const UserDetails = withRouter(({user, setUser, history}) => {
           />
         </Col>
         <Col md={4}>
-          <h2>{user.nickname}</h2>
-          <p className="lead text-muted">{user.email}</p>
+          { editing ? 
+            <div>
+              <InputGroup>
+                <InputGroup.Prepend>
+                  <InputGroup.Text style={{ minWidth: 60 }}>Name</InputGroup.Text>
+                </InputGroup.Prepend>
+                <FormControl value={name} onChange={(e) => setName(e.target.value)} />
+              </InputGroup>
+              <br />
+              <InputGroup>
+                <InputGroup.Prepend>
+                  <InputGroup.Text style={{ minWidth: 60 }}>Email</InputGroup.Text>
+                </InputGroup.Prepend>
+                <FormControl value={email} onChange={(e) => setEmail(e.target.value)} />
+              </InputGroup>        
+            </div> :
+            <div>
+              <h2>{name}</h2>
+              <p className="lead text-muted">{email}</p>
+            </div>
+          }
         </Col>
         <Col md>
-          <Button style={{ marginRight: 30, width: 110 }} displayState={resourceState.PUT} onClick={updateUser}>
-            { updating ? 'Save' : 'Edit' }
+          <Button 
+            style={{ marginRight: 30, width: 110 }} 
+            displayState={resourceState.PUT} 
+            onClick={() => updateUser(editing, setEditing, 'PUT')}
+          >
+            { editing ? 'Save' : 'Edit' }
           </Button>
-          <Button style={{ marginRight: 30, width: 110 }} displayState={resourceState.DELETE} onClick={deleteUser}>
-            Delete
+          <Button 
+            style={{ width: 115 }} 
+            displayState={display} 
+            onClick={() => setShowDetail(!showDetail)}
+          >
+            {showDetail ? 'Hide' : 'Show'} Detail
           </Button>
-          {showDetail && <Button displayState={display} onClick={() => setShowDetail(false)}>Hide Detail</Button> }
-          {!showDetail && <Button displayState={display} onClick={() => setShowDetail(true)}>Show Detail</Button> }
         </Col>
       </Row>
-      { updating && 
+      { updating ? 
         <>
           <Row>
-            <InputGroup>
-              <InputGroup.Prepend>
-                <InputGroup.Text style={{ minWidth: 120 }}>Department</InputGroup.Text>
-              </InputGroup.Prepend>
-              <FormControl value={department} onChange={(e) => setDepartment(e.target.value)} />
-            </InputGroup>
+            <Col md={6}>
+              <InputGroup>
+                <InputGroup.Prepend>
+                  <InputGroup.Text style={{ minWidth: 120 }}>Department</InputGroup.Text>
+                </InputGroup.Prepend>
+                <FormControl value={department} onChange={(e) => setDepartment(e.target.value)} />
+              </InputGroup>
+            </Col>
           </Row>
           <br />
           <Row>
-            <InputGroup>
-              <InputGroup.Prepend>
-                <InputGroup.Text style={{ minWidth: 120 }}>Title</InputGroup.Text>
-              </InputGroup.Prepend>
-              <FormControl value={title} onChange={(e) => setTitle(e.target.value)} />
-            </InputGroup>        
+            <Col md={6}>
+              <InputGroup>
+                <InputGroup.Prepend>
+                  <InputGroup.Text style={{ minWidth: 120 }}>Title</InputGroup.Text>
+                </InputGroup.Prepend>
+                <FormControl value={title} onChange={(e) => setTitle(e.target.value)} />
+              </InputGroup>        
+            </Col>
           </Row>
           <br />
-        </>
-      }
-      { !updating && 
+        </> :
         <div>
           <Row>
             <Col md={2}>
@@ -167,14 +228,52 @@ const UserDetails = withRouter(({user, setUser, history}) => {
               <p className="lead text-muted">{title}</p>
             </Col>
           </Row>
+
         </div>
       }
+
+      <Row>
+        <Col md={2}>
+          <Button 
+            style={{ width: 110 }} 
+            displayState={resourceState.POST} 
+            onClick={() => updateUser(updating, setUpdating, 'POST')}
+          >
+            {updating ? 'Save' : 'Update' }
+          </Button>
+        </Col>
+        <Col md={2}>
+          <Button 
+            style={{ width: 110 }} 
+            displayState={resourceState.DELETE} 
+            onClick={deleteUser}
+          >
+            Delete
+          </Button>
+        </Col>
+      </Row>
+
+      <hr />
 
       {showDetail && 
       <Row>
         <Highlight>{JSON.stringify(user, null, 2)}</Highlight>
       </Row>
       } 
+
+      <Modal className="danger" show={error} size="sm" onHide={hide}>
+        <Modal.Header closeButton>
+          <Modal.Title>Error</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+        { error }
+        </Modal.Body>
+        <Modal.Footer>
+          <Button displayState={display} variant="primary" onClick={hide}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>      
     </Container>
   )
 })

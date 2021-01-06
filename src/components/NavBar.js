@@ -46,23 +46,13 @@ const NavBar = () => {
               {isAuthenticated && 
                 <Nav.Item as="li">
                   <Nav.Link as={RouterNavLink}
-                    to="/users"
+                    to="/people"
                     activeClassName="router-link-exact-active"
                   >
-                    Users
+                    People
                   </Nav.Link>
                 </Nav.Item>
               }              
-              {isAuthenticated && 
-                <Nav.Item as="li">
-                  <Nav.Link as={RouterNavLink}
-                    to="/applications"
-                    activeClassName="router-link-exact-active"
-                  >
-                    Applications
-                  </Nav.Link>
-                </Nav.Item>
-              }      
             </Nav>
             <Nav className="d-none d-md-block">
               {!isAuthenticated && (

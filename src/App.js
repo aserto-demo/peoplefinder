@@ -13,9 +13,6 @@ import Home from './views/Home'
 import Profile from './views/Profile'
 import Users from './views/Users'
 import UserView from './views/UserView'
-import Applications from './views/Applications'
-import Application from './views/Application'
-import Api from './views/Api'
 
 import './App.css'
 
@@ -24,14 +21,18 @@ const { apiOrigin = "http://localhost:3001" } = config;
 
 function App() {
   const { isLoading, error, isAuthenticated, getAccessTokenSilently } = useAuth0();
-  const { init, loading, accessMap } = useAserto();
+  const { init, loading, accessMap, error: asertoError } = useAserto();
 
   // use an effect to load the Aserto access map 
   useEffect(() => {
     async function load() {
-      const token = await getAccessTokenSilently();
-      if (token) {
-        await init({ serviceUrl: apiOrigin, accessToken: token });
+      try {
+        const token = await getAccessTokenSilently();
+        if (token) {
+          await init({ serviceUrl: apiOrigin, accessToken: token, throwOnError: false });
+        }
+      } catch (error) {
+        console.error(error);
       }
     }
 
@@ -54,7 +55,13 @@ function App() {
     if (loading) {
       return <Loading />
     }
-    return <div><h1>Error encountered</h1><p>Access map failed to load</p></div>
+    if (asertoError && false) {
+      return <div>
+        <h1>Error encountered</h1>
+        <p>Access map failed to load</p>
+        <p>{asertoError}</p>
+      </div>
+    }
   }
 
   return (
@@ -65,11 +72,8 @@ function App() {
           <Switch>
             <Route path="/" exact component={Home} />
             <Route path="/profile" exact component={Profile} />
-            <Route path="/api" exact component={Api} />
-            <Route path="/users" exact component={Users} />
-            <Route path="/users/:id" component={UserView} />
-            <Route path="/applications" exact component={Applications} />
-            <Route path="/applications/:id" component={Application} />
+            <Route path="/people" exact component={Users} />
+            <Route path="/people/:id" component={UserView} />
           </Switch>
         </Container>
       </div>

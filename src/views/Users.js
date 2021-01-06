@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Container } from 'react-bootstrap'
+import { Container, FormControl } from 'react-bootstrap'
 import { useAuth0, withAuthenticationRequired } from '@auth0/auth0-react'
 import { useAserto } from '@aserto/aserto-react'
 
@@ -17,8 +17,10 @@ export const UsersView = () => {
   const [error, setError] = useState();
   const [loading, setLoading] = useState(false);
   const [users, setUsers] = useState();
-  const pageTitle = 'Users';
+  const [filter, setFilter] = useState('');
+  const pageTitle = 'People';
   const displayState = resourceMap('/users').GET;
+  const userList = (filter && users) ? users.filter(u => u.display_name.toLowerCase().includes(filter)) : users;
 
   const load = async () => {
     try {
@@ -68,8 +70,17 @@ export const UsersView = () => {
 
   return (
     <Container>
-      <PageHeader title={pageTitle} load={load} loading={loading} />
-      <UserList users={users} setUsers={setUsers} />
+      <PageHeader title={pageTitle} load={load} loading={loading}>
+        <FormControl style={{
+          width: 220,
+          marginLeft: 120,
+          }}
+          placeholder="Filter"
+          value={filter} 
+          onChange={(e) => setFilter(e.target.value)} 
+        />
+      </PageHeader>
+      <UserList users={userList} setUsers={setUsers} />
     </Container>
   )
 }
