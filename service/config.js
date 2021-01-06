@@ -1,4 +1,4 @@
-const authConfig = require("../config/auth_config.json");
+const authConfig = require("../src/utils/auth_config.json");
 
 if (!authConfig || !authConfig.domain || !authConfig.audience || !authConfig.authorizerServiceUrl) {
   throw new Error(

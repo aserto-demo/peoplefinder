@@ -37,7 +37,7 @@ You will need to [create an API](https://auth0.com/docs/apis) using the [managem
 
 The project needs to be configured with your Auth0 domain and client ID in order for the authentication flow to work.
 
-To do this, first copy `config/auth_config.json.example` into a new file in the same folder called `config/auth_config.json`, and replace the values with your own Auth0 application credentials, and optionally the base URLs of your application and API:
+To do this, first copy `src/utils/auth_config.json.example` into a new file in the same folder called `src/utils/auth_config.json`, and replace the values with your own Auth0 application credentials, and optionally the base URLs of your application and API:
 
 ```json
 {

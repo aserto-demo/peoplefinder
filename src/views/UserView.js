@@ -8,7 +8,7 @@ import Highlight from '../components/Highlight'
 import PageHeader from '../components/PageHeader'
 import UserDetails from '../components/UserDetails'
 
-import config from '../config/auth_config.json'
+import config from '../utils/auth_config.json'
 const { apiOrigin = "http://localhost:3001" } = config;
 
 const UserView = () => {

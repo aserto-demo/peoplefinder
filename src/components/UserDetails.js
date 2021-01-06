@@ -6,7 +6,7 @@ import { useAserto } from '@aserto/aserto-react'
 import { Button } from './Button'
 import Highlight from './Highlight'
 
-import config from '../config/auth_config.json'
+import config from '../utils/auth_config.json'
 const { apiOrigin = "http://localhost:3001" } = config;
 
 // access map resource path
