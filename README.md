@@ -1,40 +1,89 @@
-# Getting Started with Create React App
+# PeopleFinder sample application 
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+[Aserto](https://aserto.com) is an authorization framework that provides fine-grained authorization for API's and applications. Aserto can be used in the service / API to make allow/deny decisions based on an authorization policy.
 
-## Available Scripts
+This sample demonstrates the integration of the [Aserto Express middleware](https://github.com/aserto-dev/express-jwt-aserto) with an API, and the [Aserto React SDK](https://github.com/auth0/auth0-react) into a React application created using [create-react-app](https://reactjs.org/docs/create-a-new-react-app.html). 
 
-In the project directory, you can run:
+The sample shows how to secure an API (defined in `service/users-api.js`) using the [Aserto Express middleware](https://github.com/aserto-dev/express-jwt-aserto).
 
-### `yarn start`
+The Aserto React SDK helps solve a related problem: what UI elements should be rendered, and in what state, based on the logged-in user and the authorization policy they are subject to.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Aserto defines an <strong>Access Map</strong> that defines three possible states for UI components:
+1. Visible and enabled
+2. Visible and disabled
+3. Not visible
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+This sample also shows how the Access Map returned by the Aserto custom hook can be used to dynamically render UI components based on those three states.
 
-### `yarn test`
+## Project setup
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Use `yarn` to install the project dependencies:
 
-### `yarn build`
+```bash
+yarn install 
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Configuration
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+This project is based on Auth0 as an identity provider, and therefore requires an Auth0 account.  You can provision a free Auth0 account at [auth0.com](https://auth0.com).
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+This project contains both a React single-page application (SPA) as well as a node.js API.  The Default Application that is provisioned with a new Auth0 account can be used as the basis for the SPA.  
 
-### `yarn eject`
+### Create an API
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+You will need to [create an API](https://auth0.com/docs/apis) using the [management dashboard](https://manage.auth0.com/#/apis). This will give you an API identifier that you can use in the `audience` configuration field below.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Configure credentials
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+The project needs to be configured with your Auth0 domain and client ID in order for the authentication flow to work.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+To do this, first copy `src/auth_config.json.example` into a new file in the same folder called `src/auth_config.json`, and replace the values with your own Auth0 application credentials, and optionally the base URLs of your application and API:
+
+```json
+{
+  "domain": "{YOUR AUTH0 DOMAIN}",
+  "clientId": "{YOUR AUTH0 CLIENT ID}",
+  "audience": "{YOUR AUTH0 API_IDENTIFIER}",
+  "authorizerServiceUrl": "{URL FOR YOUR ASERTO AUTHORIZER SERVICE (default: https://localhost:8383)}",
+  "appOrigin": "{OPTIONAL: THE BASE URL OF YOUR APPLICATION (default: http://localhost:3000)}",
+  "apiOrigin": "{OPTIONAL: THE BASE URL OF YOUR API (default: http://localhost:3001)}"
+}
+```
+
+## Run the sample
+
+### Compile and hot-reload for development
+
+This compiles and serves the React app at localhost:3000, and starts the backend API server on port 3001.
+
+```bash
+yarn run dev
+```
+
+To run the api-server on its own, run `yarn run api-server`.  To run the single-page application on its own, run `yarn run spa`.
+
+## Deployment
+
+### Compiles and minifies for production
+
+```bash
+yarn run build
+```
+
+### Docker build
+
+To build and run the Docker image, run `exec.sh`.
+
+### Run your tests
+
+```bash
+yarn run test
+```
+
+## Author
+
+[Aserto](https://aserto.com) 
+
+## License
+
+This project is licensed under the MIT license. See the [LICENSE](./LICENSE) file for more info.
