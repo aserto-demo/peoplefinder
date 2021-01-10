@@ -3,6 +3,7 @@ import { Router, Route, Switch } from 'react-router-dom'
 import { Container } from 'react-bootstrap'
 import { useAuth0 } from '@auth0/auth0-react'
 import { useAserto } from '@aserto/aserto-react'
+import { useUsers } from './utils/users'
 
 import history from './utils/history'
 import config from './utils/auth_config.json'
@@ -22,10 +23,11 @@ const { apiOrigin = "http://localhost:3001" } = config;
 function App() {
   const { isLoading, error, isAuthenticated, getAccessTokenSilently } = useAuth0();
   const { init, loading, accessMap, error: asertoError } = useAserto();
+  const { users, loadUsers, error: usersError } = useUsers();
 
   // use an effect to load the Aserto access map 
   useEffect(() => {
-    async function load() {
+    async function initAserto() {
       try {
         const token = await getAccessTokenSilently();
         if (token) {
@@ -37,8 +39,13 @@ function App() {
     }
 
     // load the access map when Auth0 has finished initializing
-    if (!error && !isLoading && isAuthenticated) {
-      load();
+    if (!asertoError && !isLoading && isAuthenticated) {
+      initAserto();
+    }
+
+    // load users 
+    if (!users && !usersError && isAuthenticated) {
+      loadUsers();
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated]); 
@@ -54,13 +61,6 @@ function App() {
   if (isAuthenticated && !accessMap) {
     if (loading) {
       return <Loading />
-    }
-    if (asertoError && false) {
-      return <div>
-        <h1>Error encountered</h1>
-        <p>Access map failed to load</p>
-        <p>{asertoError}</p>
-      </div>
     }
   }
 

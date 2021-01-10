@@ -2,17 +2,17 @@
 # yarn lockfile v1
 
 
-"@aserto/aserto-react@0.1.43":
-  version "0.1.43"
-  resolved "https://registry.yarnpkg.com/@aserto/aserto-react/-/aserto-react-0.1.43.tgz#f73134b4573d325a64ee99d27702c77e4d3dfb80"
-  integrity sha512-ChYRfWlden0R+hCLA0j7AgmANs68ALY5t9DR0ThsvSFRKi4r4aTDT2FR5ktpV04W9B9yJRaehbT2apvoD5vUow==
+"@aserto/aserto-react@0.1.45":
+  version "0.1.45"
+  resolved "https://registry.yarnpkg.com/@aserto/aserto-react/-/aserto-react-0.1.45.tgz#96aaf59186f1c2b5e190d0be4e80f91c0a030697"
+  integrity sha512-7+QfjvuUUWMNO6lGJ3AqZgHb/g9KH3UXw3BDFUNw4SC1n8URjD50/53EfKKJv6z23Ckc+i1ZmbhthNZk+qxVGg==
   dependencies:
-    "@aserto/aserto-spa-js" "^0.1.23"
+    "@aserto/aserto-spa-js" "^0.1.24"
 
-"@aserto/aserto-spa-js@^0.1.23":
-  version "0.1.23"
-  resolved "https://registry.yarnpkg.com/@aserto/aserto-spa-js/-/aserto-spa-js-0.1.23.tgz#f866c63dc3e5bab41caf3400887eee976d610bc5"
-  integrity sha512-a7Hj1zNmLw+n8yPdW66fP0hXp8V0/pB4DIFeNdGeVH57uZeYN6F1BX1PeLNYVKYIgD1yuHcztmoFTF4dLRFjXg==
+"@aserto/aserto-spa-js@^0.1.24":
+  version "0.1.24"
+  resolved "https://registry.yarnpkg.com/@aserto/aserto-spa-js/-/aserto-spa-js-0.1.24.tgz#2cc48033e7e487d217095b75e1c8c51efac7a60d"
+  integrity sha512-PSLVOsthrKPJJhASt4LF3pKoEQNPPL52V+ks5gkpylDYufbxVP/fQAxxqWobzVw04/DILugKK4hWPFFc2goGig==
 
 "@auth0/auth0-react@^1.2.0":
   version "1.2.0"
@@ -5125,10 +5125,10 @@ expect@^26.6.0, expect@^26.6.2:
     jest-message-util "^26.6.2"
     jest-regex-util "^26.0.0"
 
-express-jwt-aserto@1.0.25:
-  version "1.0.25"
-  resolved "https://registry.yarnpkg.com/express-jwt-aserto/-/express-jwt-aserto-1.0.25.tgz#c2d8778625deaaba8a3531f61d04debff15d0231"
-  integrity sha512-TxAmWFIHMDrZBIqOtPexsjL77EfQweuPsohodKB4V0+8wICpdUjq22xyZwtTgOTOKgQ+hGx9CsXEk2sX9cHyLg==
+express-jwt-aserto@1.0.31:
+  version "1.0.31"
+  resolved "https://registry.yarnpkg.com/express-jwt-aserto/-/express-jwt-aserto-1.0.31.tgz#c2cfcb322c77fc7de64bdec1d026cfca0b128d1a"
+  integrity sha512-2PVywgQOSLkXXDXvOHpwnLoY0bmjn1m/WZpyImI2rxE4lQiQSO45XaJo5gL4cKA+i7qdlroHXPAcxX9P46Xb+A==
   dependencies:
     axios "^0.21.1"
 

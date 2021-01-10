@@ -1,23 +1,25 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { withRouter, Link } from 'react-router-dom'
 import { Container, Row, Col, InputGroup, FormControl, Modal } from 'react-bootstrap'
 import { useAuth0 } from '@auth0/auth0-react'
 import { useAserto } from '@aserto/aserto-react'
 import { Button } from './Button'
 import Highlight from './Highlight'
+import { useUsers } from '../utils/users'
 
 import config from '../utils/auth_config.json'
 const { apiOrigin = "http://localhost:3001" } = config;
 
 // access map resource path
-const resourcePath = '/users/__id';
+const resourcePath = '/api/users/__id';
 
 const attrKey = 'attr';
 // const attrKey = 'user_metadata'; //auth0
 
 const UserDetails = withRouter(({user, setUser, history}) => {
   const { getAccessTokenSilently } = useAuth0();
-  const { resourceMap } = useAserto();
+  const { resourceMap, identity, setIdentity } = useAserto();
+  const { users, loadUsers } = useUsers();
   const [showDetail, setShowDetail] = useState(false);
   const [editing, setEditing] = useState(false);   // edit name property
   const [updating, setUpdating] = useState(false); // update title and dept
@@ -25,33 +27,12 @@ const UserDetails = withRouter(({user, setUser, history}) => {
   const [email, setEmail] = useState();
   const [department, setDepartment] = useState();
   const [title, setTitle] = useState();
-  const [managerName, setManagerName] = useState();
   const [error, setError] = useState();
 
-  // load the manager name
-  useEffect(() => {
-    const loadManagerName = async (managerId) => {
-      try {
-        const token = await getAccessTokenSilently();
-        const response = await fetch(`${apiOrigin}/api/users/${managerId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          },
-        });
-  
-        const userData = await response.json();
-        setManagerName(userData && userData.display_name);
-      } catch (error) {
-        setManagerName(user && user.display_name);
-      }
-    };
-
-    if (user && user.attr && user.attr.manager) {
-      loadManagerName(user.attr.manager);
-    }
-  //eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user && user.attr && user.attr.manager]);
+  // retrieve the manager name
+  const managerId = user && user[attrKey] && user[attrKey].manager;
+  const manager = managerId && users.find(u => u.id === managerId);
+  const managerName = manager && manager.display_name;
 
   const update = async (method) => {
     try {
@@ -60,16 +41,17 @@ const UserDetails = withRouter(({user, setUser, history}) => {
       // prepare the payload
       const body = { ...user, display_name: name, email };
       body[attrKey] = { ...user[attrKey], department, title };
-      delete body.name;
-      delete body.department;
-      delete body.title;
 
+      const headers = {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      };
+      if (identity) {
+        headers.identity = identity;
+      }
       const response = await fetch(`${apiOrigin}/api/users/${user.id}`, {
         body: JSON.stringify(body),
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
+        headers,
         method
       });
 
@@ -80,19 +62,6 @@ const UserDetails = withRouter(({user, setUser, history}) => {
       }
 
       const userData = await response.json();
-      // augment userData
-      if (!userData.user_id) {
-        // aserto style result
-        userData.name = userData.display_name;
-        userData.title = userData.attr.title;
-        userData.department = userData.attr.department;
-      } else {
-        // auth0 style result
-        userData.id = userData.user_id;
-        userData.name = userData.nickname;
-        userData.title = userData.user_metadata.title;
-        userData.department = userData.user_metadata.department;
-      }        
       setUser(userData);
     } catch (error) {
       setUser(null);
@@ -110,9 +79,9 @@ const UserDetails = withRouter(({user, setUser, history}) => {
       // set update mode
       setter(true);
       setEmail(user.email || '');
-      setName(user.name || '');
-      setDepartment(user.department || '');
-      setTitle(user.title || '');
+      setName(user.display_name || '');
+      setDepartment(user[attrKey].department || '');
+      setTitle(user[attrKey].title || '');
     }
   };
 
@@ -120,11 +89,15 @@ const UserDetails = withRouter(({user, setUser, history}) => {
     const del = async () => {
       try {
         const token = await getAccessTokenSilently();
+        const headers = {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        };
+        if (identity) {
+          headers.identity = identity;
+        }
         const response = await fetch(`${apiOrigin}/api/users/${user.user_id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          },
+          headers,
           method: 'DELETE'
         });
   
@@ -135,6 +108,7 @@ const UserDetails = withRouter(({user, setUser, history}) => {
         }
   
         await response.json();
+        loadUsers();
         history.push('/people');        
       } catch (error) {
         setUser(null);
@@ -147,11 +121,15 @@ const UserDetails = withRouter(({user, setUser, history}) => {
   const hide = () => {
     // reset state
     setError(null);
-    setName(user.name);
+    setName(user.display_name);
     setEmail(user.email);
-    setDepartment(user.department);
-    setTitle(user.title);
+    setDepartment(user[attrKey].department);
+    setTitle(user[attrKey].title);
   };
+
+  const impersonate = () => {
+    setIdentity(user.id);
+  }
   
   const resourceState = resourceMap(resourcePath);
   if (!resourceState.GET.visible) {
@@ -194,7 +172,7 @@ const UserDetails = withRouter(({user, setUser, history}) => {
               </InputGroup>        
             </div> :
             <div>
-              <h2>{user.name}</h2>
+              <h2>{user.display_name}</h2>
               <p className="lead text-muted">{user.email}</p>
             </div>
           }
@@ -208,14 +186,22 @@ const UserDetails = withRouter(({user, setUser, history}) => {
             { editing ? 'Save' : 'Edit' }
           </Button>
           <Button 
-            style={{ width: 115 }} 
+            style={{ marginRight: 30, width: 115 }} 
             displayState={display} 
             onClick={() => setShowDetail(!showDetail)}
           >
             {showDetail ? 'Hide' : 'Show'} Detail
           </Button>
+          <Button 
+            style={{ width: 115 }} 
+            displayState={resourceState.IMPERSONATE} 
+            onClick={impersonate}
+          >
+            Impersonate
+          </Button>          
         </Col>
       </Row>
+
       { updating ? 
         <>
           <Row>
@@ -247,7 +233,7 @@ const UserDetails = withRouter(({user, setUser, history}) => {
               <h4>Department:</h4>
             </Col>
             <Col md>
-              <p className="lead text-muted">{user.department}</p>
+              <p className="lead text-muted">{user[attrKey].department}</p>
             </Col>
           </Row>
           <Row>
@@ -255,7 +241,7 @@ const UserDetails = withRouter(({user, setUser, history}) => {
               <h4>Title:</h4>
             </Col>
             <Col md>
-              <p className="lead text-muted">{user.title}</p>
+              <p className="lead text-muted">{user[attrKey].title}</p>
             </Col>
           </Row>
           <Row>
@@ -263,8 +249,8 @@ const UserDetails = withRouter(({user, setUser, history}) => {
               <h4>Manager:</h4>
             </Col>
             <Col md>
-              <Link to={`/people/${user.attr.manager}`} className="lead text-muted">
-                {managerName || user.attr.manager}
+              <Link to={`/people/${user[attrKey].manager}`} className="lead text-muted">
+                { managerName || user[attrKey].manager }
               </Link>
             </Col>
           </Row>
@@ -302,7 +288,7 @@ const UserDetails = withRouter(({user, setUser, history}) => {
       </Row>
       } 
 
-      <Modal className="danger" show={error} size="sm" onHide={hide}>
+      <Modal className="danger" show={error?true:false} size="sm" onHide={hide}>
         <Modal.Header closeButton>
           <Modal.Title>Error</Modal.Title>
         </Modal.Header>

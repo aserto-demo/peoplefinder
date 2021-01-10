@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Container, FormControl } from 'react-bootstrap'
 import { useAuth0, withAuthenticationRequired } from '@auth0/auth0-react'
 import { useAserto } from '@aserto/aserto-react'
+import { useUsers } from '../utils/users'
 
 import Highlight from '../components/Highlight'
 import Loading from '../components/Loading'
@@ -14,14 +15,16 @@ const { apiOrigin = "http://localhost:3001" } = config;
 export const UsersView = () => {
   const { getAccessTokenSilently } = useAuth0();
   const { resourceMap } = useAserto();
+  const { users, setUsers, loadUsers, loading } = useUsers();
   const [error, setError] = useState();
-  const [loading, setLoading] = useState(false);
-  const [users, setUsers] = useState();
+  //const [loading, setLoading] = useState(false);
+  //const [users, setUsers] = useState();
   const [filter, setFilter] = useState('');
   const pageTitle = 'People';
-  const displayState = resourceMap('/users').GET;
+  const displayState = resourceMap('/api/users').GET;
   const userList = (filter && users) ? users.filter(u => u.display_name.toLowerCase().includes(filter)) : users;
 
+  /*
   const load = async () => {
     try {
       setLoading(true);
@@ -33,6 +36,14 @@ export const UsersView = () => {
         },
       });
 
+      if (!response.ok) {
+        const error = await response.text();
+        setError(error);
+        setUsers(null);
+        setLoading(false);
+        return;
+      }
+
       const responseData = await response.json();
       setUsers(responseData);
       setLoading(false);
@@ -42,13 +53,16 @@ export const UsersView = () => {
       setLoading(false);
     }
   };
+  */
 
+  /*
   useEffect(() => {
     if (!users && !error && displayState.visible) {
       load();
     }
   //eslint-disable-next-line react-hooks/exhaustive-deps  
   }, []);
+  */
 
   if (error) {
     return (
@@ -70,7 +84,7 @@ export const UsersView = () => {
 
   return (
     <Container>
-      <PageHeader title={pageTitle} load={load} loading={loading}>
+      <PageHeader title={pageTitle} load={loadUsers} loading={loading}>
         <FormControl style={{
           width: 220,
           marginLeft: 107,

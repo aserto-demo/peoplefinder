@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { NavLink as RouterNavLink } from 'react-router-dom'
 
 import {
@@ -10,6 +10,15 @@ import {
 } from 'react-bootstrap'
 
 import { useAuth0 } from '@auth0/auth0-react'
+import { useAserto } from '@aserto/aserto-react'
+import { useUsers } from '../utils/users'
+
+// hardcode some demo users
+const identities = {
+  'auth0|dfdadc39-7335-404d-af66-c77cf13a15f8': 'Euan',
+  'auth0|d64b8476-3c5f-4caf-af6f-9a0f1c51d19f': 'Kris',
+  'auth0|2bfaa552-d9a5-41e9-a6c3-5be62b4433c8': 'April'
+};  
 
 const NavBar = () => {
   const {
@@ -19,11 +28,40 @@ const NavBar = () => {
     logout,
   } = useAuth0();
 
+  const { reload, identity, setIdentity } = useAserto();
+  const { users } = useUsers();
+
+  // set the current user by finding it in the user list based on the current identity
+  let currentUser = user;
+  if (identity && users) {
+    currentUser = users.find(u => u.id === identity);
+    currentUser.name = currentUser.display_name;
+  }
+
+  // look up the user's display name for each of the hardcoded users
+  if (users) {
+    for (const id of Object.keys(identities)) {
+      const u = users.find(u => u.id === id);
+      identities[id] = u && u.display_name;
+    }
+  }
+
   const logoutWithRedirect = () =>
     logout({
       returnTo: window.location.origin,
     });
 
+  // set the identity in the Aserto hook
+  const setUser = (u) => {
+    setIdentity(u);
+  }
+
+  // reload the access map if the identity is reset
+  useEffect(() => {
+    reload();
+  //eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [identity]);
+  
   return (
     <div className="nav-container">
       <Navbar bg="light" expand="md">
@@ -71,14 +109,14 @@ const NavBar = () => {
                 <Dropdown as={Nav.Item}>
                   <Dropdown.Toggle as={Nav.Link} id="profileDropDown">
                     <img
-                      src={user.picture}
+                      src={currentUser.picture}
                       alt="Profile"
                       className="nav-user-profile rounded-circle"
                       width="50"
                     />
                   </Dropdown.Toggle>
                   <Dropdown.Menu align="right">
-                    <Dropdown.Header>{user.name}</Dropdown.Header>
+                    <Dropdown.Header>{currentUser.name}</Dropdown.Header>
                     <Dropdown.Item as={RouterNavLink}
                         to="/profile"
                         exact
@@ -86,6 +124,11 @@ const NavBar = () => {
                       >
                       <i className="fa fa-user mr-3" /> Profile
                     </Dropdown.Item>
+                    { Object.keys(identities).map(i => 
+                      <Dropdown.Item key={i} onClick={() => setUser(i)}>
+                        <i className="fa fa-user mr-3" /> {identities[i]}
+                      </Dropdown.Item>)
+                    }
                     <Dropdown.Item
                       id="qsLogoutBtn"
                       onClick={() => logoutWithRedirect()}

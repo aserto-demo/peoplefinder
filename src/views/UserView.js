@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import { Container } from 'react-bootstrap'
 import { useAuth0 } from '@auth0/auth0-react'
 import { useAserto } from '@aserto/aserto-react'
+import { useUsers } from '../utils/users'
 
 import Highlight from '../components/Highlight'
 import PageHeader from '../components/PageHeader'
@@ -15,11 +16,23 @@ const UserView = () => {
   let { id } = useParams();
   const { getAccessTokenSilently } = useAuth0();
   const { resourceMap } = useAserto();
+  const { users, setUsers } = useUsers();
   const [error, setError] = useState();
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState();
-  const pageTitle = user ? user.name : '';
-  const displayState = resourceMap('/users').GET;
+  const pageTitle = user ? user.display_name : '';
+  const displayState = resourceMap('/api/users').GET;
+
+  const updateUser = (newUser) => {
+    setUser(newUser);
+    // refresh the users context with the new retrieved user
+    const newUsers = [ ...users ];
+    const userIndex = newUsers.findIndex(u => u.id === newUser.id);
+    if (userIndex >= 0) {
+      newUsers.splice(userIndex, 1, newUser);
+      setUsers(newUsers);  
+    }
+  }
 
   const load = async () => {
     try {
@@ -33,21 +46,7 @@ const UserView = () => {
       });
 
       const userData = await response.json();
-
-      // augment userData
-      if (!userData.user_id) {
-        // aserto style result
-        userData.name = userData.display_name;
-        userData.title = userData.attr.title;
-        userData.department = userData.attr.department;
-      } else {
-        // auth0 style result
-        userData.id = userData.user_id;
-        userData.name = userData.nickname;
-        userData.title = userData.user_metadata.title;
-        userData.department = userData.user_metadata.department;
-      }
-      setUser(userData);
+      updateUser(userData);
       setLoading(false);
     } catch (error) {
       setUser(null);
@@ -59,10 +58,13 @@ const UserView = () => {
   useEffect(() => {
     // only retrieve the users if the user has the right permissions
     if (!error && displayState.visible) {
-      load();
+      const currentUser = users && users.find(u => u.id === id);
+      if (currentUser) {
+        setUser(currentUser);
+      }
     }
   //eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id]);
+  }, [id, users]);
 
   if (error) {
     return (
@@ -89,7 +91,7 @@ const UserView = () => {
         breadcrumbText='People'
         breadcrumbUrl='/people'
         load={load} loading={loading} />
-      <UserDetails user={user} setUser={setUser} />
+      <UserDetails user={user} setUser={updateUser} />
     </Container> :
     <div />
   )
