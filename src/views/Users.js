@@ -21,7 +21,7 @@ export const UsersView = () => {
   //const [users, setUsers] = useState();
   const [filter, setFilter] = useState('');
   const pageTitle = 'People';
-  const displayState = resourceMap('/api/users').GET;
+  const displayState = resourceMap('GET', '/api/users');
   const userList = (filter && users) ? users.filter(u => u.display_name.toLowerCase().includes(filter)) : users;
 
   /*

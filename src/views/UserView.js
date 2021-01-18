@@ -21,7 +21,7 @@ const UserView = () => {
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState();
   const pageTitle = user ? user.display_name : '';
-  const displayState = resourceMap('/api/users').GET;
+  const displayState = resourceMap('GET', '/api/users');
 
   const updateUser = (newUser) => {
     setUser(newUser);

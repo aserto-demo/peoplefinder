@@ -131,8 +131,7 @@ const UserDetails = withRouter(({user, setUser, history}) => {
     setIdentity(user.id);
   }
   
-  const resourceState = resourceMap(resourcePath);
-  if (!resourceState.GET.visible) {
+  if (!resourceMap('GET', resourcePath).visible) {
     return (
       <Container className="mb-5">
         <h2>Error</h2>
@@ -180,7 +179,7 @@ const UserDetails = withRouter(({user, setUser, history}) => {
         <Col md>
           <Button 
             style={{ marginRight: 30, width: 110 }} 
-            displayState={resourceState.PUT} 
+            displayState={resourceMap('PUT', resourcePath)} 
             onClick={() => updateUser(editing, setEditing, 'PUT')}
           >
             { editing ? 'Save' : 'Edit' }
@@ -194,7 +193,7 @@ const UserDetails = withRouter(({user, setUser, history}) => {
           </Button>
           <Button 
             style={{ width: 115 }} 
-            displayState={resourceState.IMPERSONATE} 
+            displayState={resourceMap('IMPERSONATE', resourcePath)} 
             onClick={impersonate}
           >
             Impersonate
@@ -263,7 +262,7 @@ const UserDetails = withRouter(({user, setUser, history}) => {
         <Col md={2}>
           <Button 
             style={{ width: 110 }} 
-            displayState={resourceState.POST} 
+            displayState={resourceMap('POST', resourcePath)} 
             onClick={() => updateUser(updating, setUpdating, 'POST')}
           >
             {updating ? 'Save' : 'Update' }
@@ -272,7 +271,7 @@ const UserDetails = withRouter(({user, setUser, history}) => {
         <Col md={2}>
           <Button 
             style={{ width: 110 }} 
-            displayState={resourceState.DELETE} 
+            displayState={resourceMap('DELETE', resourcePath)} 
             onClick={deleteUser}
           >
             Delete
