@@ -2,6 +2,7 @@
   "domain": "{DOMAIN}",
   "clientId": "{CLIENT_ID}",
   "audience": "{API_IDENTIFIER}",
-  "authorizerServiceUrl": "{AUTHORIZER_SERVICE_URL}",
+  "authorizerServiceUrl": "{AUTHORIZER_SERVICE_URL - defaults to https://localhost:8383}",
+  "authorizerCertFile": "{CERT_FILE - defaults to $HOME/.config/aserto/aserto-one/certs/aserto-one-gateway-ca.crt}",
   "applicationName": "{APPLICATION_NAME}"
 }
