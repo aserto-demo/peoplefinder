@@ -53,8 +53,7 @@ exports.getUsers = async (req) => {
         headers: headers
       });
 
-    const result = response.data && response.data.results && 
-      Object.values(response.data.results);
+    const result = response.data && response.data.users;
     return result;
   } catch (error) {
     console.error(`getUsers: caught exception: ${error}`);
