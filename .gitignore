@@ -25,3 +25,5 @@ yarn-debug.log*
 yarn-error.log*
 
 auth_config.json
+auth_config_prod.json
+aserto-one-gateway-ca.crt
