@@ -1,5 +1,13 @@
 const fs = require('fs');
-const authConfig = require("../src/utils/auth_config.json");
+const environment = process.env.HOST_ENV;
+const authConfig = environment === 'NETLIFY' ? {} : require("../src/utils/auth_config.json");
+if (environment === 'NETLIFY') {
+  authConfig.domain = process.env.DOMAIN;
+  authConfig.audience = process.env.AUDIENCE;
+  authConfig.appOrigin = process.env.APP_ORIGIN;
+  authConfig.authorizerServiceUrl = process.env.AUTHORIZER_SERVICE_URL;
+  authConfig.authorizerCert = process.env.AUTHORIZER_CERT;
+}
 
 if (!authConfig || !authConfig.domain || !authConfig.audience) {
   throw new Error(
@@ -17,7 +25,7 @@ const authorizerServiceUrl = authConfig.authorizerServiceUrl || 'https://localho
 const authorizerCertFile = authConfig.authorizerCertFile || '$HOME/.config/aserto/aserto-one/certs/aserto-one-gateway-ca.crt';
 const certfilesplit = authorizerCertFile.split('$HOME/');
 const certfile  = certfilesplit.length > 1 ? `${process.env.HOME}/${certfilesplit[1]}` : authorizerCertFile;
-const authorizerCert = fs.readFileSync(certfile);
+const authorizerCert = authConfig.authorizerCert || fs.readFileSync(certfile);
 
 const applicationName = authConfig.applicationName || 'peoplefinder';
 const directoryClientId = authConfig.directoryClientId;

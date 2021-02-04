@@ -5,12 +5,13 @@ const helmet = require("helmet");
 const bodyParser = require('body-parser');
 const jwt = require("express-jwt");
 const jwksRsa = require("jwks-rsa");
+const serverless = require("serverless-http");
 
 // retrieve the authz middleware
 const { accessMap } = require("express-jwt-aserto");
 
 // retrieve configuration
-const { port, appOrigin, authorizerServiceUrl, applicationName, domain, audience } = require('./service/config');
+const { port, appOrigin, authorizerServiceUrl, applicationName, domain, audience } = require('./config');
 
 const app = express();
 
@@ -40,7 +41,13 @@ app.use(checkJwt);
 app.use(accessMap({ authorizerServiceUrl, applicationName, useAuthorizationHeader: false }));
 
 // register the api handlers
-const users = require('./service/users-api');
+const users = require('./users-api');
 users.register(app);
 
 app.listen(port, () => console.log(`API Server listening on port ${port}`));
+
+// make it work with netlify functions
+if (process.env.NETLIFY_HOST) {
+  module.exports = app;
+  module.exports.handler = serverless(app);
+}
