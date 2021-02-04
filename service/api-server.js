@@ -47,7 +47,7 @@ users.register(app);
 app.listen(port, () => console.log(`API Server listening on port ${port}`));
 
 // make it work with netlify functions
-if (process.env.NETLIFY_HOST) {
+if (process.env.NETLIFY) {
   module.exports = app;
   module.exports.handler = serverless(app);
 }

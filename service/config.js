@@ -1,7 +1,6 @@
 const fs = require('fs');
-const environment = process.env.HOST_ENV;
-const authConfig = environment === 'NETLIFY' ? {} : require("../src/utils/auth_config.json");
-if (environment === 'NETLIFY') {
+const authConfig = process.env.NETLIFY ? {} : require("../src/utils/auth_config.json");
+if (process.env.NETLIFY) {
   authConfig.domain = process.env.DOMAIN;
   authConfig.audience = process.env.AUDIENCE;
   authConfig.appOrigin = process.env.APP_ORIGIN;
