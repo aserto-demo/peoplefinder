@@ -17,7 +17,8 @@ const app = express();
 const router = express.Router();
 
 // set the router's base path corresponding to whether we are hosted in netlify or not
-const routerBasePath = process.env.NETLIFY ? '/.netlify/functions/api-server' : '/';
+const isNetlify = process.env.NETLIFY || process.env.REACT_APP_NETLIFY;
+const routerBasePath = isNetlify ? '/.netlify/functions/api-server' : '/';
 
 app.use(morgan("dev"));
 app.use(helmet({
@@ -54,7 +55,7 @@ users.register(router);
 app.use(routerBasePath, router);
 
 // make it work with netlify functions
-if (process.env.NETLIFY) {
+if (isNetlify) {
   exports.handler = serverless(app);
 } else {
   app.listen(port, () => console.log(`API Server listening on port ${port}`));

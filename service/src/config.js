@@ -1,8 +1,5 @@
-console.log('NETLIFY: ', process.env.NETLIFY);
-console.log('REACT_APP_NETLIFY: ', process.env.REACT_APP_NETLIFY);
-console.log('NODE_ENV: ', process.env.NODE_ENV);
-
-const configSource = process.env.NETLIFY ? './config-netlify' : './config-local';
+const isNetlify = process.env.NETLIFY || process.env.REACT_APP_NETLIFY;
+const configSource = isNetlify ? './config-netlify' : './config-local';
 const authConfig = require(configSource);
 
 if (!authConfig || !authConfig.domain || !authConfig.audience) {
