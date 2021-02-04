@@ -13,6 +13,12 @@ import { useAuth0 } from '@auth0/auth0-react'
 import { useAserto } from '@aserto/aserto-react'
 import { useUsers } from '../utils/users'
 
+// determine authorizer URL from an environment variable or from the window.location.origin
+const url = new URL(window.location.origin);
+url.protocol = 'https';
+url.port = '8383';
+const authorizerServiceUrl = process.env.REACT_APP_AUTHORIZER_SERVICE_URL || url + '';
+
 // hardcode some demo users
 const identities = {
   'auth0|dfdadc39-7335-404d-af66-c77cf13a15f8': 'Euan',
@@ -129,6 +135,12 @@ const NavBar = () => {
                         <i className="fa fa-user mr-3" /> {identities[i]}
                       </Dropdown.Item>)
                     }
+
+                    <Dropdown.Item as={Nav.Link}
+                      href={authorizerServiceUrl} target='_authorizer'>
+                        <i className="fa fa-link mr-3" /> Authorizer
+                    </Dropdown.Item>
+
                     <Dropdown.Item
                       id="qsLogoutBtn"
                       onClick={() => logoutWithRedirect()}
