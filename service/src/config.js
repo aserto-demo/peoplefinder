@@ -1,3 +1,7 @@
+console.log('NETLIFY: ', process.env.NETLIFY);
+console.log('REACT_APP_NETLIFY: ', process.env.REACT_APP_NETLIFY);
+console.log('NODE_ENV: ', process.env.NODE_ENV);
+
 const configSource = process.env.NETLIFY ? './config-netlify' : './config-local';
 const authConfig = require(configSource);
 
