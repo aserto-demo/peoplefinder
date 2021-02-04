@@ -7,7 +7,7 @@ import { Button } from './Button'
 import Highlight from './Highlight'
 import { useUsers } from '../utils/users'
 
-import config from '../utils/auth_config.json'
+import config from '../utils/config'
 const { apiOrigin = "http://localhost:3001" } = config;
 
 // access map resource path

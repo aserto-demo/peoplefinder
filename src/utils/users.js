@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react'
 import { useAuth0 } from '@auth0/auth0-react'
 
-import config from '../utils/auth_config.json'
+import config from './config'
 const { apiOrigin = "http://localhost:3001" } = config;
 
 export const UsersContext = React.createContext();

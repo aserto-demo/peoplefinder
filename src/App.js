@@ -6,7 +6,7 @@ import { useAserto } from '@aserto/aserto-react'
 import { useUsers } from './utils/users'
 
 import history from './utils/history'
-import config from './utils/auth_config.json'
+import config from './utils/config'
 
 import Loading from './components/Loading'
 import NavBar from './components/NavBar'

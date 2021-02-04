@@ -4,7 +4,7 @@ import App from './App'
 import reportWebVitals from './reportWebVitals'
 import { Auth0Provider } from '@auth0/auth0-react'
 import { AsertoProvider } from '@aserto/aserto-react'
-import config from './utils/auth_config.json'
+import config from './utils/config'
 import history from './utils/history'
 import { UsersProvider } from './utils/users'
 
