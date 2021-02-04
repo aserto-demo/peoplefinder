@@ -19,3 +19,7 @@ code {
   background-repeat: no-repeat;
   background-size: cover; 
 }
+
+div.card-body p.card-text {
+  font-size: 14px !important;
+}
