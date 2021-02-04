@@ -11,12 +11,18 @@ const serverless = require("serverless-http");
 const { accessMap } = require("express-jwt-aserto");
 
 // retrieve configuration
-const { port, appOrigin, authorizerServiceUrl, applicationName, domain, audience } = require('./config');
+const { port, appOrigin, authorizerServiceUrl, applicationName, domain, audience } = require('./src/config');
 
 const app = express();
+const router = express.Router();
+
+// set the router's base path corresponding to whether we are hosted in netlify or not
+const routerBasePath = process.env.NETLIFY ? '/.netlify/functions/api-server' : '/';
 
 app.use(morgan("dev"));
-app.use(helmet());
+app.use(helmet({
+  contentSecurityPolicy: false
+}));
 app.use(cors({ origin: appOrigin }));
 app.use(bodyParser.json());
 
@@ -38,16 +44,18 @@ app.use(checkJwt);
 
 // set up middleware to return the access map for this service, passing in authorizer service hostname
 //app.use(accessMap({ authorizerServiceUrl, applicationName }));
-app.use(accessMap({ authorizerServiceUrl, applicationName, useAuthorizationHeader: false }));
+router.use(accessMap({ authorizerServiceUrl, applicationName, useAuthorizationHeader: false }));
 
 // register the api handlers
-const users = require('./users-api');
-users.register(app);
+const users = require('./src/users-api');
+users.register(router);
 
-app.listen(port, () => console.log(`API Server listening on port ${port}`));
+// configure the router on the correct base path
+app.use(routerBasePath, router);
 
 // make it work with netlify functions
 if (process.env.NETLIFY) {
-  module.exports = app;
-  module.exports.handler = serverless(app);
+  exports.handler = serverless(app);
+} else {
+  app.listen(port, () => console.log(`API Server listening on port ${port}`));
 }

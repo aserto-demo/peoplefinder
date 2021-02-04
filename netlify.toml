@@ -1,3 +1,2 @@
 [build]
-  command = "yarn install && yarn run build"
   functions = "service"
