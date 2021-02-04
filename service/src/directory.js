@@ -11,7 +11,8 @@ const { authorizerServiceUrl, authorizerCert } = require('./config');
 const https = require('https');
 const axios = require('axios').create({
   httpsAgent: new https.Agent({
-    ca: authorizerCert
+    //ca: authorizerCert
+    rejectUnauthorized: false
   })
 });
 

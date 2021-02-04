@@ -2,7 +2,7 @@ const { jwtAuthz, is } = require('express-jwt-aserto');
 const directory = require('./directory');
 const { authorizerServiceUrl, applicationName } = require('./config');
 
-const jwtAuthzOptions = { authorizerServiceUrl, applicationName, useAuthorizationHeader: false };
+const jwtAuthzOptions = { authorizerServiceUrl, applicationName, useAuthorizationHeader: false, disableTlsValidation: true };
 
 // check authorization by initializing the jwtAuthz middleware with option map
 const checkAuthz = jwtAuthz(jwtAuthzOptions);
