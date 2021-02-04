@@ -1,18 +1,13 @@
-const fs = require('fs');
-const authConfig = !process.env.REACT_APP_NETLIFY ? require('../../src/utils/auth_config.json') : {};
-if (process.env.REACT_APP_NETLIFY) {
-  authConfig.domain = process.env.REACT_APP_DOMAIN;
-  authConfig.audience = process.env.REACT_APP_AUDIENCE;
-  authConfig.appOrigin = process.env.APP_ORIGIN;
-  authConfig.authorizerServiceUrl = process.env.AUTHORIZER_SERVICE_URL;
-  authConfig.authorizerCert = process.env.AUTHORIZER_CERT;
-}
+const configSource = process.env.NETLIFY ? './config-netlify' : './config-local';
+const authConfig = require(configSource);
 
 if (!authConfig || !authConfig.domain || !authConfig.audience) {
   throw new Error(
     "Please make sure that auth_config.json is in place and populated"
   );
 }
+
+const fs = require('fs');
 
 const domain = authConfig.domain;
 const audience = authConfig.audience;

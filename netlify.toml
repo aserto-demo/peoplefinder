@@ -1,3 +1,2 @@
 [build]
   functions = "service"
-  build = "sed -i s/require('../../src/utils/auth_config.json')/{}/g service/src/config.js && yarn build"
