@@ -136,7 +136,7 @@ const NavBar = () => {
                       </Dropdown.Item>)
                     }
 
-                    <Dropdown.Item as={Nav.Link}
+                    <Dropdown.Item as={Nav.Link} style={{ background: 'white' }}
                       href={authorizerServiceUrl} target='_authorizer'>
                         <i className="fa fa-link mr-3" /> Authorizer
                     </Dropdown.Item>
