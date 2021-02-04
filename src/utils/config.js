@@ -1,13 +1,12 @@
 let configuration;
-if (!process.env.NETLIFY) {
+if (!process.env.REACT_APP_NETLIFY) {
    configuration = require('./auth_config.json');
 } else {
-  const apiPort = process.env.API_PORT || 3001;
   configuration = {
-    "domain": process.env.DOMAIN,
-    "clientId": process.env.CLIENT_ID,
-    "audience": process.env.AUDIENCE,
-    "apiOrigin": `${process.env.SITE_NAME}:${apiPort}`
+    "domain": process.env.REACT_APP_DOMAIN,
+    "clientId": process.env.REACT_APP_CLIENT_ID,
+    "audience": process.env.REACT_APP_AUDIENCE,
+    "apiOrigin": process.env.REACT_APP_API_ORIGIN
   };
 }
 
