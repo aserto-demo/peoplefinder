@@ -10,17 +10,17 @@ const serverless = require("serverless-http");
 // retrieve the authz middleware
 const { accessMap } = require("express-jwt-aserto");
 
+// establish whether we are hosted in Netlify
+const isNetlify = process.env.NETLIFY || process.env.REACT_APP_NETLIFY;
+
+console.log(`netlify: ${isNetlify}`);
+console.log('REACT_APP_NETLIFY: ', process.env.REACT_APP_NETLIFY);
+
 // retrieve configuration
 const { port, appOrigin, authorizerServiceUrl, applicationName, domain, audience } = require('./src/config');
 
 const app = express();
 const router = express.Router();
-
-// set the router's base path corresponding to whether we are hosted in netlify or not
-const isNetlify = process.env.NETLIFY || process.env.REACT_APP_NETLIFY;
-
-console.log(`netlify: ${isNetlify}`);
-console.log('REACT_APP_NETLIFY: ', process.env.REACT_APP_NETLIFY);
 const routerBasePath = isNetlify ? '/.netlify/functions/api-server' : '/';
 
 app.use(morgan("dev"));
