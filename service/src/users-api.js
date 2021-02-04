@@ -10,7 +10,7 @@ const checkAuthz = jwtAuthz(jwtAuthzOptions);
 // register routes for users API
 exports.register = (app) => {
   // use checkAuthz as middleware in the route dispatch path
-  app.get("/api/users", (req, res) => {
+  app.get("/api/users", checkAuthz, (req, res) => {
     (async () => { res.status(200).send(await directory.getUsers(req)) })();
   });
 

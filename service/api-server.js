@@ -45,7 +45,7 @@ app.use(checkJwt);
 
 // set up middleware to return the access map for this service, passing in authorizer service hostname
 //app.use(accessMap({ authorizerServiceUrl, applicationName }));
-router.use(accessMap({ authorizerServiceUrl, applicationName, useAuthorizationHeader: false, disableTlsValidation: true }));
+router.use(accessMap({ authorizerServiceUrl, applicationName, useAuthorizationHeader: false }));
 
 // register the api handlers
 const users = require('./src/users-api');
