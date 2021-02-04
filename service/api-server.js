@@ -18,6 +18,9 @@ const router = express.Router();
 
 // set the router's base path corresponding to whether we are hosted in netlify or not
 const isNetlify = process.env.NETLIFY || process.env.REACT_APP_NETLIFY;
+
+console.log(`netlify: ${isNetlify}`);
+console.log('REACT_APP_NETLIFY: ', process.env.REACT_APP_NETLIFY);
 const routerBasePath = isNetlify ? '/.netlify/functions/api-server' : '/';
 
 app.use(morgan("dev"));
