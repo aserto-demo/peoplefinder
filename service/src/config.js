@@ -1,5 +1,5 @@
 const fs = require('fs');
-const authConfig = !process.env.REACT_APP_NETLIFY ? require("../../src/utils/auth_config.json") : {};
+const authConfig = !process.env.REACT_APP_NETLIFY ? require('../../src/utils/auth_config.json') : {};
 if (process.env.REACT_APP_NETLIFY) {
   authConfig.domain = process.env.REACT_APP_DOMAIN;
   authConfig.audience = process.env.REACT_APP_AUDIENCE;
