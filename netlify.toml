@@ -2,6 +2,6 @@
   functions = "service"
 
 [[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 301
+  from = "/people*"
+  to = "/"
+  status = 200
