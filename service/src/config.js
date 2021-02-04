@@ -1,3 +1,7 @@
+// workaround: require config-netlify to make sure it gets added to the netlify bundle
+const netlifyConfig = require('./config-netlify');
+
+// determine which config to load based on the operating environment
 const isNetlify = process.env.NETLIFY || process.env.REACT_APP_NETLIFY;
 const configSource = isNetlify ? './config-netlify' : './config-local';
 const authConfig = require(configSource);
