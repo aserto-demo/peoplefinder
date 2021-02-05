@@ -16,7 +16,7 @@ const axios = require('axios').create({
   })
 });
 
-// get a user's Auth0 profile from the management API
+// get a user's profile from the management API
 exports.getUser = async (req, user) => {
   try {
     const url = `${authorizerServiceUrl}/api/v1/dir/users/${user}`;
@@ -78,7 +78,7 @@ exports.updateUser = async (req, user, payload) => {
         headers: headers
       });
 
-    const result = response.data && response.data.results && response.data.results[user];
+    const result = response.data && response.data.results;
     return result;
   } catch (error) {
     console.error(`updateUser: caught exception: ${error}`);
