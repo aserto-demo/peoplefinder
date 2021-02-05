@@ -21,9 +21,9 @@ const authorizerServiceUrl = process.env.REACT_APP_AUTHORIZER_SERVICE_URL || url
 
 // hardcode some demo users
 const identities = {
-  'auth0|dfdadc39-7335-404d-af66-c77cf13a15f8': 'Euan',
-  'auth0|d64b8476-3c5f-4caf-af6f-9a0f1c51d19f': 'Kris',
-  'auth0|2bfaa552-d9a5-41e9-a6c3-5be62b4433c8': 'April'
+  'dfdadc39-7335-404d-af66-c77cf13a15f8': 'Euan',
+  'd64b8476-3c5f-4caf-af6f-9a0f1c51d19f': 'Kris',
+  '2bfaa552-d9a5-41e9-a6c3-5be62b4433c8': 'April'
 };  
 
 const NavBar = () => {
