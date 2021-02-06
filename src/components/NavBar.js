@@ -40,8 +40,8 @@ const NavBar = () => {
   // set the current user by finding it in the user list based on the current identity
   let currentUser = user;
   if (identity && users) {
-    currentUser = users.find(u => u.id === identity);
-    currentUser.name = currentUser.display_name;
+    const u = users.find(u => u.id === identity);
+    currentUser = { ...u, name: u.display_name };
   }
 
   // look up the user's display name for each of the hardcoded users
