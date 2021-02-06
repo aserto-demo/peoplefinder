@@ -31,7 +31,7 @@ exports.getUser = async (req, user) => {
         headers: headers
       });
 
-    const result = response.data && response.data.results && response.data.results[user];
+    const result = response.data && response.data.results;
     return result;
   } catch (error) {
     console.error(`getUser: caught exception: ${error}`);
@@ -42,7 +42,7 @@ exports.getUser = async (req, user) => {
 // get users
 exports.getUsers = async (req) => {
   try {
-    const url = `${authorizerServiceUrl}/api/v1/dir/users?page.size=-1`;
+    const url = `${authorizerServiceUrl}/api/v1/dir/users?page.size=-1&fields.mask=id,display_name,picture,email`;
     const headers = { 
       'content-type': 'application/json',
       'authorization': `Bearer ${req.headers.authorization}`

@@ -60,9 +60,13 @@ const NavBar = () => {
   // set the identity in the Aserto hook
   const setUser = (u) => {
     setIdentity(u);
+    // reload the display state if the user has not changed
+    if (u === identity) {
+      reload();
+    }
   }
 
-  // reload the access map if the identity is reset
+  // reload the access map if the identity is changed
   useEffect(() => {
     reload();
   //eslint-disable-next-line react-hooks/exhaustive-deps

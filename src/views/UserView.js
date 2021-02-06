@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom'
 import { Container } from 'react-bootstrap'
 import { useAuth0 } from '@auth0/auth0-react'
 import { useAserto } from '@aserto/aserto-react'
-import { useUsers } from '../utils/users'
 
 import Highlight from '../components/Highlight'
 import PageHeader from '../components/PageHeader'
@@ -16,23 +15,11 @@ const UserView = () => {
   let { id } = useParams();
   const { getAccessTokenSilently } = useAuth0();
   const { resourceMap } = useAserto();
-  const { users, setUsers } = useUsers();
   const [error, setError] = useState();
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState();
   const pageTitle = user ? user.display_name : '';
   const displayState = resourceMap('GET', '/api/users');
-
-  const updateUser = (newUser) => {
-    setUser(newUser);
-    // refresh the users context with the new retrieved user
-    const newUsers = [ ...users ];
-    const userIndex = newUsers.findIndex(u => u.id === newUser.id);
-    if (userIndex >= 0) {
-      newUsers.splice(userIndex, 1, newUser);
-      setUsers(newUsers);  
-    }
-  }
 
   const load = async () => {
     try {
@@ -45,9 +32,16 @@ const UserView = () => {
         },
       });
 
-      const userData = await response.json();
-      updateUser(userData);
-      setLoading(false);
+      if (!response.ok) {
+        const message = await response.text();
+        setUser(null);
+        setError(message);
+        setLoading(false);
+      } else {
+        const userData = await response.json();
+        setUser(userData);
+        setLoading(false);    
+      }
     } catch (error) {
       setUser(null);
       setError(error);
@@ -58,13 +52,10 @@ const UserView = () => {
   useEffect(() => {
     // only retrieve the users if the user has the right permissions
     if (!error && displayState.visible) {
-      const currentUser = users && users.find(u => u.id === id);
-      if (currentUser) {
-        setUser(currentUser);
-      }
+      load();
     }
   //eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id, users]);
+  }, [id, error]);
 
   if (error) {
     return (
@@ -91,7 +82,7 @@ const UserView = () => {
         breadcrumbText='People'
         breadcrumbUrl='/people'
         load={load} loading={loading} />
-      <UserDetails user={user} setUser={updateUser} />
+      <UserDetails user={user} setUser={setUser} />
     </Container> :
     <div />
   )
