@@ -40,6 +40,11 @@
     "server:dev": "nodemon server.js",
     "api-server": "node service/api-server.js",
     "api-server:dev": "nodemon service/api-server.js",
+    "build-gcp": "PROJ=aserto-298622 IMAGE=peoplefinder:latest scripts/build-gcp.sh",
+    "docker-build": "PROJ=aserto-298622 IMAGE=peoplefinder:latest scripts/build-local.sh",
+    "docker-run": "PROJ=aserto-298622 IMAGE=peoplefinder:latest scripts/docker-run.sh",
+    "deploy-gcp": "PROJ=aserto-298622 IMAGE=peoplefinder:latest SVC=peoplefinder scripts/deploy-gcp.sh",
+    "push": "npm run build-gcp && npm run deploy-gcp",
     "dev": "npm-run-all --parallel spa api-server:dev",
     "prod": "npm-run-all --parallel server api-server"
   },

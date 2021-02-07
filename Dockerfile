@@ -1,4 +1,4 @@
-FROM node:10-alpine as build
+FROM node:12-alpine as build
 
 RUN apk update && apk upgrade && \
   apk add --no-cache bash git openssh yarn
@@ -17,7 +17,7 @@ RUN yarn build
 
 # ---------------
 
-FROM node:10-alpine
+FROM node:12-alpine
 
 RUN mkdir -p /app/build
 
@@ -28,6 +28,8 @@ WORKDIR /app
 COPY --from=build /app/package.json .
 
 RUN yarn install --production
+
+ARG CACHEBUST=1
 
 COPY --from=build /app/build ./build
 COPY --from=build /app/src/utils/auth_config_prod.json ./src/utils/auth_config.json

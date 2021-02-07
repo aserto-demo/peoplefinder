@@ -24,7 +24,7 @@ app.use(morgan("dev"));
 app.use(helmet({
   contentSecurityPolicy: false
 }));
-app.use(cors({ origin: appOrigin }));
+app.use(cors({ origin: true }));
 app.use(bodyParser.json());
 
 const checkJwt = jwt({
@@ -53,6 +53,11 @@ users.register(router);
 
 // configure the router on the correct base path
 app.use(routerBasePath, router);
+
+// log some config values
+console.log(`Application: ${applicationName}`);
+console.log(`Authorizer: ${authorizerServiceUrl}`);
+console.log(`Auth0 domain: ${domain}`);
 
 // make it work with netlify functions
 if (isNetlify) {
