@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Container, FormControl } from 'react-bootstrap'
+import { Container } from 'react-bootstrap'
 import { withAuthenticationRequired } from '@auth0/auth0-react'
 import { useAserto } from '@aserto/aserto-react'
 import { useUsers } from '../utils/users'
