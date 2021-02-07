@@ -7,6 +7,7 @@ import { useUsers } from '../utils/users'
 import Loading from '../components/Loading'
 import PageHeader from '../components/PageHeader'
 import UserList from '../components/UserList'
+import Filter from '../components/Filter'
 
 export const UsersView = () => {
   const { resourceMap } = useAserto();
@@ -28,13 +29,10 @@ export const UsersView = () => {
   return (
     <Container>
       <PageHeader title={pageTitle} load={loadUsers} loading={loading}>
-        <FormControl style={{
-          width: 220,
-          marginLeft: 107,
-          }}
-          placeholder="Filter"
-          value={filter} 
-          onChange={(e) => setFilter(e.target.value)} 
+        <Filter 
+          placeholder='Filter'
+          value={filter}
+          setValue={setFilter}
         />
       </PageHeader>
       <UserList users={userList} setUsers={setUsers} />

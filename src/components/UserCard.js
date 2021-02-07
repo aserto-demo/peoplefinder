@@ -12,8 +12,8 @@ const UserCard = withRouter(({user, history}) => {
   return (
     <Card onClick={() => history.push(`/people/${id}`)}
       style={{
-      maxWidth: 220,
-      minWidth: 220,
+      maxWidth: 200,
+      minWidth: 200,
       margin: 10    
     }}>
       <Card.Img src={user.picture} alt="picture" />

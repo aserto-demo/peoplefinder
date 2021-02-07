@@ -3,18 +3,13 @@ const cors = require("cors");
 const morgan = require("morgan");
 const helmet = require("helmet");
 const bodyParser = require('body-parser');
-const jwt = require("express-jwt");
-const jwksRsa = require("jwks-rsa");
-const serverless = require("serverless-http");
-
-// retrieve the authz middleware
-const { accessMap } = require("express-jwt-aserto");
+const { join } = require("path");
 
 // establish whether we are hosted in Netlify
 const isNetlify = process.env.NETLIFY || process.env.REACT_APP_NETLIFY;
 
 // retrieve configuration
-const { port, appOrigin, authorizerServiceUrl, applicationName, domain, audience } = require('./src/config');
+const { port, authorizerServiceUrl, applicationName, domain } = require('./src/config');
 
 const app = express();
 const router = express.Router();
@@ -26,26 +21,6 @@ app.use(helmet({
 }));
 app.use(cors({ origin: true }));
 app.use(bodyParser.json());
-
-const checkJwt = jwt({
-  secret: jwksRsa.expressJwtSecret({
-    cache: true,
-    rateLimit: true,
-    jwksRequestsPerMinute: 5,
-    jwksUri: `https://${domain}/.well-known/jwks.json`
-  }),
-
-  audience: audience,
-  issuer: `https://${domain}/`,
-  algorithms: ["RS256"]
-});
-
-// use jwt middleware to validate the JWT and extract its claims into the 'user' key
-app.use(checkJwt);
-
-// set up middleware to return the access map for this service, passing in authorizer service hostname
-//app.use(accessMap({ authorizerServiceUrl, applicationName }));
-router.use(accessMap({ authorizerServiceUrl, applicationName, useAuthorizationHeader: false, disableTlsValidation: true }));
 
 // register the api handlers
 const users = require('./src/users-api');
@@ -61,7 +36,16 @@ console.log(`Auth0 domain: ${domain}`);
 
 // make it work with netlify functions
 if (isNetlify) {
+  const serverless = require("serverless-http");
   exports.handler = serverless(app);
 } else {
+  // main endpoint serves react bundle from /build
+  app.use(express.static(join(__dirname, '..', 'build')));
+
+  // serve all /people client-side routes from the /build bundle
+  app.get('/people*', function(req, res) {
+    res.sendFile(join(__dirname, '..', 'build', 'index.html'));
+  });
+  
   app.listen(port, () => console.log(`API Server listening on port ${port}`));
 }

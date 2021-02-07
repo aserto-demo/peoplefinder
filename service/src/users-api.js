@@ -1,33 +1,56 @@
-const { jwtAuthz, is } = require('express-jwt-aserto');
+const jwt = require("express-jwt");
+const jwksRsa = require("jwks-rsa");
+const { accessMap, jwtAuthz, is } = require('express-jwt-aserto');
 const directory = require('./directory');
-const { authorizerServiceUrl, applicationName } = require('./config');
+const { authorizerServiceUrl, applicationName, audience, domain } = require('./config');
 
-const jwtAuthzOptions = { authorizerServiceUrl, applicationName, useAuthorizationHeader: false, disableTlsValidation: true };
+const checkJwt = jwt({
+  secret: jwksRsa.expressJwtSecret({
+    cache: true,
+    rateLimit: true,
+    jwksRequestsPerMinute: 5,
+    jwksUri: `https://${domain}/.well-known/jwks.json`
+  }),
+
+  audience: audience,
+  issuer: `https://${domain}/`,
+  algorithms: ["RS256"]
+});
+
+const jwtAuthzOptions = { 
+  authorizerServiceUrl, 
+  applicationName, 
+  useAuthorizationHeader: false, 
+  disableTlsValidation: true 
+};
 
 // check authorization by initializing the jwtAuthz middleware with option map
 const checkAuthz = jwtAuthz(jwtAuthzOptions);
 
 // register routes for users API
 exports.register = (app) => {
+  // set up middleware to return the access map for this service
+  app.use(accessMap(jwtAuthzOptions));
+
   // use checkAuthz as middleware in the route dispatch path
-  app.get("/api/users", checkAuthz, (req, res) => {
+  app.get("/api/users", checkJwt, checkAuthz, (req, res) => {
     (async () => { res.status(200).send(await directory.getUsers(req)) })();
   });
 
-  app.get("/api/users/:id", checkAuthz, (req, res) => {
+  app.get("/api/users/:id", checkJwt, checkAuthz, (req, res) => {
     const id = req.params.id;
     (async () => { res.status(200).send(await directory.getUser(req, id)) })();
   });  
 
   // edit name and email
-  app.put("/api/users/:id", checkAuthz, (req, res) => {
+  app.put("/api/users/:id", checkJwt, checkAuthz, (req, res) => {
     const user = req.body;
     const id = req.params.id;
     (async () => { res.status(201).send(await directory.updateUser(req, id, user)) })();
   });  
 
   // update department and title
-  app.post("/api/users/:id", checkAuthz, (req, res) => {
+  app.post("/api/users/:id", checkJwt, checkAuthz, (req, res) => {
     const user = req.body;
     const id = req.params.id;
     (async () => { res.status(201).send(await directory.updateUser(req, id, user)) })();
@@ -35,7 +58,7 @@ exports.register = (app) => {
 
   // delete the user
   // instead of checkAuthz, use the "is" function for a more imperative style of authorization
-  app.delete("/api/users/:id", /* checkAuthz,*/ (req, res) => {
+  app.delete("/api/users/:id", checkJwt, /* checkAuthz,*/ (req, res) => {
     const id = req.params.id;
 
     const check = async () => {

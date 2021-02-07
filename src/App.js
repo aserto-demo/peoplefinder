@@ -31,7 +31,11 @@ function App() {
       try {
         const token = await getAccessTokenSilently();
         if (token) {
-          await init({ serviceUrl: apiOrigin, accessToken: token, throwOnError: false });
+          await init({ 
+            serviceUrl: apiOrigin, 
+            accessToken: token, 
+            throwOnError: false 
+          });
         }
       } catch (error) {
         console.error(error);

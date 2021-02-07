@@ -31,7 +31,7 @@ const UserDetails = withRouter(({user, setUser, history}) => {
 
   // retrieve the manager name
   const managerId = user && user[attrKey] && user[attrKey].manager;
-  const manager = managerId && users.find(u => u.id === managerId);
+  const manager = users && managerId && users.find(u => u.id === managerId);
   const managerName = manager && manager.display_name;
 
   const update = async (method) => {

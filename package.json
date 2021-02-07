@@ -15,7 +15,7 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "express-jwt": "^6.0.0",
-    "express-jwt-aserto": "1.0.40",
+    "express-jwt-aserto": "1.0.45",
     "font-awesome": "^4.7.0",
     "helmet": "^4.3.1",
     "highlight.js": "^10.5.0",
@@ -46,7 +46,7 @@
     "deploy-gcp": "PROJ=aserto-298622 IMAGE=peoplefinder:latest SVC=peoplefinder scripts/deploy-gcp.sh",
     "push": "npm run build-gcp && npm run deploy-gcp",
     "dev": "npm-run-all --parallel spa api-server:dev",
-    "prod": "npm-run-all --parallel server api-server"
+    "prod": "npm run api-server"
   },
   "eslintConfig": {
     "extends": [

@@ -1,0 +1,10 @@
+.filter.form-control {
+  margin-left: 87px;
+  width: 200px;
+}
+
+@media (max-width: 767px) {
+  .filter.form-control {
+    margin-left: 10px;
+  }
+}
