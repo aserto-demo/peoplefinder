@@ -17,6 +17,7 @@ if (!process.env.REACT_APP_NETLIFY) {
     "domain": process.env.REACT_APP_DOMAIN,
     "clientId": process.env.REACT_APP_CLIENT_ID,
     "audience": process.env.REACT_APP_AUDIENCE,
+    "authorizerServiceUrl": process.env.REACT_APP_AUTHORIZER_SERVICE_URL,
     "apiOrigin": `${window.location.origin}/.netlify/functions/api-server`
   };
 }

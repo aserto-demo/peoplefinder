@@ -21,10 +21,15 @@ const appPort = process.env.SERVER_PORT || 3000;
 const appOrigin = authConfig.appOrigin || `http://localhost:${appPort}`;
 const authorizerServiceUrl = authConfig.authorizerServiceUrl || 'https://localhost:8383';
 
-const authorizerCertFile = authConfig.authorizerCertFile || '$HOME/.config/aserto/aserto-one/certs/aserto-one-gateway-ca.crt';
-const certfilesplit = authorizerCertFile.split('$HOME/');
-const certfile  = certfilesplit.length > 1 ? `${process.env.HOME}/${certfilesplit[1]}` : authorizerCertFile;
-const authorizerCert = authConfig.authorizerCert || fs.readFileSync(certfile);
+const authorizerCertFile = authConfig.authorizerCertFile;
+let authorizerCert = authConfig.authorizerCert;
+if (!authorizerCert) {
+  if (authorizerCertFile) {
+    const certfilesplit = authorizerCertFile.split('$HOME/');
+    const certfile  = certfilesplit.length > 1 ? `${process.env.HOME}/${certfilesplit[1]}` : authorizerCertFile;
+    authorizerCert = fs.readFileSync(certfile);
+  }
+}
 
 const applicationName = authConfig.applicationName || 'peoplefinder';
 const directoryClientId = authConfig.directoryClientId;
@@ -37,6 +42,7 @@ module.exports = {
   appPort,
   appOrigin,
   authorizerServiceUrl,
+  authorizerCertFile,
   authorizerCert,
   applicationName,
   directoryClientId,

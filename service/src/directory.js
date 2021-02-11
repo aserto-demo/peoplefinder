@@ -9,12 +9,13 @@ const { authorizerServiceUrl, authorizerCert } = require('./config');
 
 // create a well-configured axios client initialized with the correct authrorizer certificate
 const https = require('https');
-const axios = require('axios').create({
-  httpsAgent: new https.Agent({
-    //ca: authorizerCert
-    rejectUnauthorized: false
-  })
-});
+const axios = authorizerCert ? 
+  require('axios').create({
+    httpsAgent: new https.Agent({
+      ca: authorizerCert
+    })
+  }) :
+  require('axios');
 
 // get a user's profile from the management API
 exports.getUser = async (req, user) => {

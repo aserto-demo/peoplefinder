@@ -2,7 +2,7 @@ const jwt = require("express-jwt");
 const jwksRsa = require("jwks-rsa");
 const { accessMap, jwtAuthz, is } = require('express-jwt-aserto');
 const directory = require('./directory');
-const { authorizerServiceUrl, applicationName, audience, domain } = require('./config');
+const { authorizerServiceUrl, authorizerCertFile, applicationName, audience, domain } = require('./config');
 
 const checkJwt = jwt({
   secret: jwksRsa.expressJwtSecret({
@@ -20,9 +20,11 @@ const checkJwt = jwt({
 const jwtAuthzOptions = { 
   authorizerServiceUrl, 
   applicationName, 
-  useAuthorizationHeader: false, 
-  disableTlsValidation: true 
+  useAuthorizationHeader: false 
 };
+if (authorizerCertFile) {
+  jwtAuthzOptions.authorizerCertFile = authorizerCertFile;
+}
 
 // check authorization by initializing the jwtAuthz middleware with option map
 const checkAuthz = jwtAuthz(jwtAuthzOptions);
