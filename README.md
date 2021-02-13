@@ -8,12 +8,12 @@ The sample shows how to secure an API (defined in `service/users-api.js`) using 
 
 The Aserto React SDK helps solve a related problem: what UI elements should be rendered, and in what state, based on the logged-in user and the authorization policy they are subject to.
 
-Aserto defines an <strong>Access Map</strong> that defines three possible states for UI components:
+Aserto defines a <strong>Display State Map</strong> that defines three possible states for UI components:
 1. Visible and enabled
 2. Visible and disabled
 3. Not visible
 
-This sample also shows how the Access Map returned by the Aserto custom hook can be used to dynamically render UI components based on those three states.
+This sample also shows how the Display State Map returned by the Aserto custom hook can be used to dynamically render UI components based on those three states.
 
 ## Project setup
 

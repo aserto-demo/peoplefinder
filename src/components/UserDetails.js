@@ -10,7 +10,7 @@ import { useUsers } from '../utils/users'
 import config from '../utils/config'
 const { apiOrigin = "http://localhost:3001" } = config;
 
-// access map resource path
+// display state map resource path
 const resourcePath = '/api/users/__id';
 
 const attrKey = 'attr';
@@ -18,7 +18,7 @@ const attrKey = 'attr';
 
 const UserDetails = withRouter(({user, setUser, history}) => {
   const { getAccessTokenSilently } = useAuth0();
-  const { resourceMap, identity, setIdentity } = useAserto();
+  const { getDisplayState, identity, setIdentity } = useAserto();
   const { users, loadUsers } = useUsers();
   const [showDetail, setShowDetail] = useState(false);
   const [editing, setEditing] = useState(false);   // edit name property
@@ -131,7 +131,7 @@ const UserDetails = withRouter(({user, setUser, history}) => {
     setIdentity(user.id);
   }
   
-  if (!resourceMap('GET', resourcePath).visible) {
+  if (!getDisplayState('GET', resourcePath).visible) {
     return (
       <Container className="mb-5">
         <h2>Error</h2>
@@ -179,7 +179,7 @@ const UserDetails = withRouter(({user, setUser, history}) => {
         <Col md>
           <Button 
             style={{ marginRight: 30, width: 110 }} 
-            displayState={resourceMap('PUT', resourcePath)} 
+            displayState={getDisplayState('PUT', resourcePath)} 
             onClick={() => updateUser(editing, setEditing, 'PUT')}
           >
             { editing ? 'Save' : 'Edit' }
@@ -193,7 +193,7 @@ const UserDetails = withRouter(({user, setUser, history}) => {
           </Button>
           <Button 
             style={{ width: 115 }} 
-            displayState={resourceMap('IMPERSONATE', resourcePath)} 
+            displayState={getDisplayState('IMPERSONATE', resourcePath)} 
             onClick={impersonate}
           >
             Impersonate
@@ -262,7 +262,7 @@ const UserDetails = withRouter(({user, setUser, history}) => {
         <Col md={2}>
           <Button 
             style={{ width: 110 }} 
-            displayState={resourceMap('POST', resourcePath)} 
+            displayState={getDisplayState('POST', resourcePath)} 
             onClick={() => updateUser(updating, setUpdating, 'POST')}
           >
             {updating ? 'Save' : 'Update' }
@@ -271,7 +271,7 @@ const UserDetails = withRouter(({user, setUser, history}) => {
         <Col md={2}>
           <Button 
             style={{ width: 110 }} 
-            displayState={resourceMap('DELETE', resourcePath)} 
+            displayState={getDisplayState('DELETE', resourcePath)} 
             onClick={deleteUser}
           >
             Delete

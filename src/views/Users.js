@@ -10,11 +10,11 @@ import UserList from '../components/UserList'
 import Filter from '../components/Filter'
 
 export const UsersView = () => {
-  const { resourceMap } = useAserto();
+  const { getDisplayState } = useAserto();
   const { users, setUsers, loadUsers, loading } = useUsers();
   const [filter, setFilter] = useState('');
   const pageTitle = 'People';
-  const displayState = resourceMap('GET', '/api/users');
+  const displayState = getDisplayState('GET', '/api/users');
   const userList = (filter && users) ? users.filter(u => u.display_name.toLowerCase().includes(filter)) : users;
 
   if (!displayState.visible) {

@@ -14,12 +14,12 @@ const { apiOrigin = "http://localhost:3001" } = config;
 const UserView = () => {
   let { id } = useParams();
   const { getAccessTokenSilently } = useAuth0();
-  const { resourceMap } = useAserto();
+  const { getDisplayState } = useAserto();
   const [error, setError] = useState();
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState();
   const pageTitle = user ? user.display_name : '';
-  const displayState = resourceMap('GET', '/api/users');
+  const displayState = getDisplayState('GET', '/api/users');
 
   const load = async () => {
     try {

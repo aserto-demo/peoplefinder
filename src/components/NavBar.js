@@ -66,7 +66,7 @@ const NavBar = () => {
     }
   }
 
-  // reload the access map if the identity is changed
+  // reload the display state map if the identity is changed
   useEffect(() => {
     reload();
   //eslint-disable-next-line react-hooks/exhaustive-deps

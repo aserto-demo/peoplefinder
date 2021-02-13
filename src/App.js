@@ -22,10 +22,10 @@ const { apiOrigin = "http://localhost:3001" } = config;
 
 function App() {
   const { isLoading, error, isAuthenticated, getAccessTokenSilently } = useAuth0();
-  const { init, loading, accessMap, error: asertoError } = useAserto();
+  const { init, loading, displayStateMap, error: asertoError } = useAserto();
   const { users, loadUsers, error: usersError } = useUsers();
 
-  // use an effect to load the Aserto access map 
+  // use an effect to load the Aserto display state map 
   useEffect(() => {
     async function initAserto() {
       try {
@@ -42,7 +42,7 @@ function App() {
       }
     }
 
-    // load the access map when Auth0 has finished initializing
+    // load the display state map when Auth0 has finished initializing
     if (!asertoError && !isLoading && isAuthenticated) {
       initAserto();
     }
@@ -62,7 +62,7 @@ function App() {
     return <Loading />
   }
 
-  if (isAuthenticated && !accessMap) {
+  if (isAuthenticated && !displayStateMap) {
     if (loading) {
       return <Loading />
     }

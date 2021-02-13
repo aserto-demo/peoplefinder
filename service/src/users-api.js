@@ -1,6 +1,6 @@
 const jwt = require("express-jwt");
 const jwksRsa = require("jwks-rsa");
-const { accessMap, jwtAuthz, is } = require('express-jwt-aserto');
+const { displayStateMap, jwtAuthz, is } = require('express-jwt-aserto');
 const directory = require('./directory');
 const { authorizerServiceUrl, authorizerCertFile, applicationName, audience, domain } = require('./config');
 
@@ -17,22 +17,22 @@ const checkJwt = jwt({
   algorithms: ["RS256"]
 });
 
-const jwtAuthzOptions = { 
+const authzOptions = { 
   authorizerServiceUrl, 
   applicationName, 
   useAuthorizationHeader: false 
 };
 if (authorizerCertFile) {
-  jwtAuthzOptions.authorizerCertFile = authorizerCertFile;
+  authzOptions.authorizerCertFile = authorizerCertFile;
 }
 
 // check authorization by initializing the jwtAuthz middleware with option map
-const checkAuthz = jwtAuthz(jwtAuthzOptions);
+const checkAuthz = jwtAuthz(authzOptions);
 
 // register routes for users API
 exports.register = (app) => {
-  // set up middleware to return the access map for this service
-  app.use(accessMap(jwtAuthzOptions));
+  // set up middleware to return the display state map for this service
+  app.use(displayStateMap(authzOptions));
 
   // use checkAuthz as middleware in the route dispatch path
   app.get("/api/users", checkJwt, checkAuthz, (req, res) => {
@@ -66,7 +66,7 @@ exports.register = (app) => {
     const check = async () => {
       try {
         // call the is('allowed') method, inferring the policy name and resource
-        const allowed = await is('allowed', req, jwtAuthzOptions);
+        const allowed = await is('allowed', req, authzOptions);
         if (allowed) {
           res.status(201).send(await directory.deleteUser(req, id));
         } else {
