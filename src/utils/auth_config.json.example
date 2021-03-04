@@ -3,6 +3,6 @@
   "clientId": "{CLIENT_ID}",
   "audience": "{API_IDENTIFIER}",
   "authorizerServiceUrl": "{AUTHORIZER_SERVICE_URL - defaults to https://localhost:8383}",
-  "authorizerCertFile": "{CERT_FILE - use $HOME/.config/aserto/aserto-one/certs/aserto-one-gateway-ca.crt for localhost}",
+  "authorizerCertFile": "{CERT_FILE - use $HOME/.config/aserto/aserto-one/certs/gateway-ca.crt for localhost}",
   "applicationName": "{APPLICATION_NAME}"
 }

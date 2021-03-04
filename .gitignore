@@ -27,5 +27,6 @@ yarn-error.log*
 auth_config.json
 auth_config_prod.json
 aserto-one-gateway-ca.crt
+gateway-ca.crt
 # Local Netlify folder
 .netlify
