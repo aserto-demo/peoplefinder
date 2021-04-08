@@ -4525,7 +4525,7 @@ dotenv-expand@5.1.0:
   resolved "https://registry.yarnpkg.com/dotenv-expand/-/dotenv-expand-5.1.0.tgz#3fbaf020bfd794884072ea26b1e9791d45a629f0"
   integrity sha512-YXQl1DSa4/PQyRfgrv6aoNjhasp/p4qs9FjJ4q4cQk+8m4r6k4ZSiEyytKG8f8W9gi8WsQtIObNmKd+tMzNTmA==
 
-dotenv@8.2.0:
+dotenv@8.2.0, dotenv@^8.2.0:
   version "8.2.0"
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-8.2.0.tgz#97e619259ada750eea3e4ea3e26bceea5424b16a"
   integrity sha512-8sJ78ElpbDJBHNeBzUbUVLsqKdccaa/BXF1uPTw3GrvQTBgrQrtObr2mUrE38vzYd8cEv+m/JBfDLioYcfXoaw==
@@ -5130,10 +5130,10 @@ expect@^26.6.0, expect@^26.6.2:
     jest-message-util "^26.6.2"
     jest-regex-util "^26.0.0"
 
-express-jwt-aserto@1.0.47:
-  version "1.0.47"
-  resolved "https://registry.yarnpkg.com/express-jwt-aserto/-/express-jwt-aserto-1.0.47.tgz#a0e94524c495ed00a66743f13afd5198fd0223f4"
-  integrity sha512-9Gh3CHZ+rtFJ8Nvymzf2gg3yCJuiukvmQo0P5auxDbIArJEEb4bVZ9AtTj+Icq09k95sx02835A2dZo9shEZyw==
+express-jwt-aserto@^1.0.53:
+  version "1.0.53"
+  resolved "https://registry.yarnpkg.com/express-jwt-aserto/-/express-jwt-aserto-1.0.53.tgz#a9144672c67dede98bec963c694742c944eea073"
+  integrity sha512-6r3m/yLW7vOVeonley1Jqr5yDglgtZGPX7KI0t2sPwPxMsIgzYEvgmjPj2Vdqh+OCTtMzVnmxvt9pEwFWeNJpg==
   dependencies:
     axios "^0.21.1"
 

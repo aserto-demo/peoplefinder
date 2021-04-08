@@ -37,18 +37,28 @@ You will need to [create an API](https://auth0.com/docs/apis) using the [managem
 
 The project needs to be configured with your Auth0 domain and client ID in order for the authentication flow to work.
 
-To do this, first copy `src/utils/auth_config.json.example` into a new file in the same folder called `src/utils/auth_config.json`, and replace the values with your own Auth0 application credentials, and optionally the base URLs of your application and API:
+To do this, first copy `.env.example` into a new file in the same folder called `.env`, and replace the values with your own Auth0 application credentialsd as well as your Aserto developer keys:
 
-```json
-{
-  "domain": "{YOUR AUTH0 DOMAIN}",
-  "clientId": "{YOUR AUTH0 CLIENT ID}",
-  "audience": "{YOUR AUTH0 API_IDENTIFIER}",
-  "authorizerServiceUrl": "{URL FOR YOUR ASERTO AUTHORIZER SERVICE (default: https://localhost:8383)}",
-  "applicationName": "{OPTIONAL: APPLICATION NAME (default: peoplefinder)}",
-  "appOrigin": "{OPTIONAL: THE BASE URL OF YOUR APPLICATION (default: http://localhost:3000)}",
-  "apiOrigin": "{OPTIONAL: THE BASE URL OF YOUR API (default: http://localhost:3001)}"
-}
+```bash
+REACT_APP_DOMAIN={your Auth0 domain - e.g. in a form like `aserto-demo.us.auth0.com`}
+REACT_APP_CLIENT_ID={your Auth0 client ID}
+REACT_APP_AUDIENCE={the OAuth2 audience you configured for your API - e.g. `https://peoplefinder.sample`}
+REACT_APP_POLICY_NAME={the name you used for your policy - defaults to `peoplefinder`}
+
+# To use the Aserto hosted authorizer, provide an API key and Tenant ID
+AUTHORIZER_API_KEY={Your Authorizer API Key - find in the Aserto console in the "Policy configuration" section}
+TENANT_ID={Your Tenant ID - find in the Aserto console in the "Policy configuration" section}
+
+# To use a local authorizer, instead of the two variables above, provide the service URL and cert file
+AUTHORIZER_SERVICE_URL=https://localhost:8383
+AUTHORIZER_CERT_FILE=$HOME/.config/aserto/aserto-one/certs/gateway-ca.crt
+```
+
+Optionally, you can override these base URL's:
+
+```bash
+APP_ORIGIN={OPTIONAL: THE BASE URL OF YOUR APPLICATION (default: http://localhost:3000)}
+REACT_APP_API_ORIGIN={OPTIONAL: THE BASE URL OF YOUR API (default: http://localhost:3001)}
 ```
 
 ## Run the sample
@@ -71,11 +81,41 @@ To run the api-server on its own, run `yarn run api-server`.  To run the single-
 yarn run build
 ```
 
-### Docker build
+### Deploy to Netlify
 
-To build and run the Docker image, run `exec.sh`.
+The project is ready to deploy to Netlify. Just click the "Deploy to Netlify" badge on the repo, or fork the project and set up a Netlify deployment for it.
 
-### Run your tests
+Note that the API is deployed as a Netlify function.
+
+Also, in order to run properly, the environment variables found in `.env.example` MUST be set up in the Deployment section in Netlify.
+
+* REACT_APP_DOMAIN={your Auth0 domain - e.g. in a form like `aserto-demo.us.auth0.com`}
+* REACT_APP_CLIENT_ID={your Auth0 client ID}
+* REACT_APP_AUDIENCE={the OAuth2 audience you configured for your API - e.g. `https://peoplefinder.sample`}
+* REACT_APP_POLICY_NAME={the name you used for your policy - e.g. `peoplefinder`}
+* AUTHORIZER_API_KEY={Your Authorizer API Key (find in the Aserto console in the "Policy configuration" section)}
+* TENANT_ID={Your Tenant ID (find in the Aserto console in the "Policy configuration" section)}
+
+### Building and running as a local docker image
+
+Create a `.env.docker` (based on the `.env.example`) with the appropriate settings. If a local authorizer is to be used, the `Dockerfile` expects the `src/utils/gateway-ca.crt` to be the public key file for the gateway CA for that authorizer, and AUTHORIZER_CERT_FILE in `.env.docker` to be set to `src/utils/gateway-ca.crt`.
+
+`yarn run docker-build`: uses docker build to create a local container image
+`yarn run docker-run`: runs the docker container built using the command above with the name `peoplefinder`
+
+You can tweak the image tags using the four environment variables defined below.
+
+### Building and running on Google Cloud Build / Run
+`yarn run build-gcp`: uses the GCP container image build service to build on GCP
+`yarn run deploy-gcp`: runs the container on Google Cloud Run
+
+Note that these scripts rely on the following environment variables:
+* `REGISTRY`: registry prefix (defaults to `gcr.io`)
+* `PROJECT`: project name (the container image is named `$REGISTRY/$PROJECT/$IMAGE` - change to your GCP project name)
+* `IMAGE`: image name (defaults to `peoplefinder`)
+* `SERVICE`: GCR service name (defaults to `peoplefinder`)
+
+## Run your tests
 
 ```bash
 yarn run test

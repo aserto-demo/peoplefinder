@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
@@ -9,7 +10,7 @@ const { join } = require("path");
 const isNetlify = process.env.NETLIFY || process.env.REACT_APP_NETLIFY;
 
 // retrieve configuration
-const { port, authorizerServiceUrl, applicationName, domain } = require('./src/config');
+const { port, authorizerServiceUrl, policyName, domain } = require('./src/config');
 
 const app = express();
 const router = express.Router();
@@ -30,7 +31,7 @@ users.register(router);
 app.use(routerBasePath, router);
 
 // log some config values
-console.log(`Application: ${applicationName}`);
+console.log(`Policy: ${policyName}`);
 console.log(`Authorizer: ${authorizerServiceUrl}`);
 console.log(`Auth0 domain: ${domain}`);
 

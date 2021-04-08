@@ -1,5 +1,10 @@
 #!/bin/bash
 
+REGISTRY=${REGISTRY:-gcr.io}
+PROJECT=${PROJECT:-aserto-298622}
+IMAGE=${IMAGE:-peoplefinder}
+SERVICE=${SERVICE:-peoplefinder}
+
 # extract version from package.json
 VERSION=$(cat package.json \
   | grep version \
@@ -8,6 +13,6 @@ VERSION=$(cat package.json \
   | sed 's/[",]//g' \
   | tr -d '[[:space:]]')
 
-gcloud run deploy $SVC \
-  --image gcr.io/$PROJ/$IMAGE:$VERSION \
+gcloud run deploy $SERVICE \
+  --image $REGISTRY/$PROJECT/$IMAGE:$VERSION \
   --platform managed --allow-unauthenticated

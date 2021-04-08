@@ -1,6 +1,12 @@
-let configuration;
+const configuration = {
+  domain: process.env.REACT_APP_DOMAIN,
+  clientId: process.env.REACT_APP_CLIENT_ID,
+  audience: process.env.REACT_APP_AUDIENCE,
+  authorizerServiceUrl: process.env.REACT_APP_AUTHORIZER_SERVICE_URL,
+  apiOrigin: process.env.REACT_APP_API_ORIGIN
+}
+
 if (!process.env.REACT_APP_NETLIFY) {
-  configuration = require('./auth_config.json');
   if (!configuration.apiOrigin) {
     const url = new URL(window.location.origin);
     if (url.port === '3000') {
@@ -13,13 +19,8 @@ if (!process.env.REACT_APP_NETLIFY) {
       urlstring;
   }
 } else {
-  configuration = {
-    "domain": process.env.REACT_APP_DOMAIN,
-    "clientId": process.env.REACT_APP_CLIENT_ID,
-    "audience": process.env.REACT_APP_AUDIENCE,
-    "authorizerServiceUrl": process.env.REACT_APP_AUTHORIZER_SERVICE_URL,
-    "apiOrigin": `${window.location.origin}/.netlify/functions/api-server`
-  };
+  configuration.apiOrigin = `${window.location.origin}/.netlify/functions/api-server`;
 }
 
-export default configuration;
+export default configuration
+

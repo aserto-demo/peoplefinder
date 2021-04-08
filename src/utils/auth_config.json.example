@@ -4,5 +4,7 @@
   "audience": "{API_IDENTIFIER}",
   "authorizerServiceUrl": "{AUTHORIZER_SERVICE_URL - defaults to https://localhost:8383}",
   "authorizerCertFile": "{CERT_FILE - use $HOME/.config/aserto/aserto-one/certs/gateway-ca.crt for localhost}",
-  "applicationName": "{APPLICATION_NAME}"
+  "authorizerApiKey": "{AUTHORIZER_API_KEY}",
+  "tenantId": "{TENANT_ID}",
+  "policyName": "{POLICY_NAME}"
 }
