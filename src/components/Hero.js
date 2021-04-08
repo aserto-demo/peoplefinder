@@ -1,4 +1,5 @@
 import React from 'react'
+import config from '../utils/config'
 import logo from '../assets/logo.svg'
 
 const Hero = () =>
@@ -12,6 +13,8 @@ const Hero = () =>
 
     <p>
       Version: {process.env.REACT_APP_VERSION || 'development'}
+      <br />
+      Authorizer Service: <a href={config.authorizerServiceUrl} target='_'>{config.authorizerServiceUrl}</a>
     </p>
   </div>
 

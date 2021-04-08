@@ -50,7 +50,7 @@ AUTHORIZER_API_KEY={Your Authorizer API Key - find in the Aserto console in the 
 TENANT_ID={Your Tenant ID - find in the Aserto console in the "Policy configuration" section}
 
 # To use a local authorizer, instead of the two variables above, provide the service URL and cert file
-AUTHORIZER_SERVICE_URL=https://localhost:8383
+REACT_APP_AUTHORIZER_SERVICE_URL=https://localhost:8383
 AUTHORIZER_CERT_FILE=$HOME/.config/aserto/aserto-one/certs/gateway-ca.crt
 ```
 
