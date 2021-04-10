@@ -7,9 +7,13 @@
   status = 200
 
 [template.environment]
-  REACT_APP_DOMAIN = "enter your Auth0 domain - <name.region.auth0.com>"
-  REACT_APP_CLIENT_ID= "enter your Auth0 application's Client ID"
-  REACT_APP_AUDIENCE = "enter the audience you configured for your Auth0 API"
-  REACT_APP_POLICY_NAME = "set to the policy name"
-  TENANT_ID = "enter your Aserto tenant ID, found in the policy details"
-  AUTHORIZER_API_KEY = "enter your Aserto tenant's API key, found in the policy details"
+  REACT_APP_DOMAIN = "Auth0 domain"
+  REACT_APP_CLIENT_ID= "Auth0 Client ID"
+  REACT_APP_AUDIENCE = "Auth0 API audience"
+  REACT_APP_POLICY_NAME = "Policy name"
+  REACT_APP_NETLIFY = "NETLIFY"
+  TENANT_ID = "Aserto tenant ID"
+  AUTHORIZER_API_KEY = "Aserto tenant API key"
+
+[context.production]
+  environment = { REACT_APP_NETLIFY = "NETLIFY" }

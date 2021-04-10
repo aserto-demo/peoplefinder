@@ -24,7 +24,7 @@ exports.getUser = async (req, user) => {
     const headers = { 
       'content-type': 'application/json',
       'aserto-tenant-id': tenantId,      
-      'aserto-api-key': `basic ${authorizerApiKey}`,
+      'authorization': `basic ${authorizerApiKey}`,
     };
 
     const response = await axios.get(
@@ -48,7 +48,7 @@ exports.getUsers = async (req) => {
     const headers = { 
       'content-type': 'application/json',
       'aserto-tenant-id': tenantId,      
-      'aserto-api-key': `basic ${authorizerApiKey}`,
+      'authorization': `basic ${authorizerApiKey}`,
     };
 
     const response = await axios.get(
@@ -72,7 +72,7 @@ exports.updateUser = async (req, user, payload) => {
     const headers = { 
       'content-type': 'application/json',
       'aserto-tenant-id': tenantId,      
-      'aserto-api-key': `basic ${authorizerApiKey}`,
+      'authorization': `basic ${authorizerApiKey}`,
     };
 
     const response = await axios.put(
