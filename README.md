@@ -85,7 +85,7 @@ yarn run build
 
 ### Deploy to Netlify
 
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/aserto-demo/peoplefinder#REACT_APP_AUDIENCE=https://express.sample&REACT_APP_POLICY_NAME=peoplefinder&REACT_APP_DOMAIN=%3Cyour%20Auth0%20domain%3E&REACT_APP_CLIENT_ID=%3Cyour%20Auth0%20application%20Client%20ID%3E&TENANT_ID=%3Cyour%20Aserto%20tenant%20ID%3E&AUTHORIZER_API_KEY=%3Cyour%20Aserto%20tenant%20API%20key%3E)
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/aserto-demo/peoplefinder#REACT_APP_AUDIENCE=https://express.sample&REACT_APP_POLICY_NAME=peoplefinder&REACT_APP_DOMAIN=your-Auth0-domain&REACT_APP_CLIENT_ID=your-Auth0-application-Client-ID&TENANT_ID=your-Aserto-tenant-ID&AUTHORIZER_API_KEY=your-Aserto-tenant-API-key)
 
 The project is ready to deploy to Netlify. Just click the "Deploy to Netlify" badge on the repo, or fork the project and set up a Netlify deployment for it.
 
