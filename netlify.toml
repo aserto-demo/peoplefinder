@@ -11,7 +11,6 @@
   REACT_APP_CLIENT_ID= "Auth0 Client ID"
   REACT_APP_AUDIENCE = "Auth0 API audience"
   REACT_APP_POLICY_NAME = "Policy name"
-  REACT_APP_NETLIFY = "NETLIFY"
   TENANT_ID = "Aserto tenant ID"
   AUTHORIZER_API_KEY = "Aserto tenant API key"
 
