@@ -1,5 +1,7 @@
 # PeopleFinder sample application 
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/fe55f8a0-4595-43ec-8dc3-ecf653a62b28/deploy-status)](https://app.netlify.com/sites/peoplefinder/deploys)
+
 [Aserto](https://aserto.com) is an authorization framework that provides fine-grained authorization for API's and applications. Aserto can be used in the service / API to make allow/deny decisions based on an authorization policy.
 
 This sample demonstrates the integration of the [Aserto Express middleware](https://github.com/aserto-dev/express-jwt-aserto) with an API, and the [Aserto React SDK](https://github.com/auth0/auth0-react) into a React application created using [create-react-app](https://reactjs.org/docs/create-a-new-react-app.html). 
@@ -83,6 +85,8 @@ yarn run build
 
 ### Deploy to Netlify
 
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/aserto-demo/peoplefinder#REACT_APP_AUDIENCE=https://express.sample&REACT_APP_POLICY_NAME=peoplefinder^REACT_APP_NETLIFY=NETLIFY)
+
 The project is ready to deploy to Netlify. Just click the "Deploy to Netlify" badge on the repo, or fork the project and set up a Netlify deployment for it.
 
 Note that the API is deployed as a Netlify function.
@@ -91,7 +95,7 @@ Also, in order to run properly, the environment variables found in `.env.example
 
 * REACT_APP_DOMAIN={your Auth0 domain - e.g. in a form like `aserto-demo.us.auth0.com`}
 * REACT_APP_CLIENT_ID={your Auth0 client ID}
-* REACT_APP_AUDIENCE={the OAuth2 audience you configured for your API - e.g. `https://peoplefinder.sample`}
+* REACT_APP_AUDIENCE={the OAuth2 audience you configured for your API - e.g. `https://express.sample`}
 * REACT_APP_POLICY_NAME={the name you used for your policy - e.g. `peoplefinder`}
 * AUTHORIZER_API_KEY={Your Authorizer API Key (find in the Aserto console in the "Policy configuration" section)}
 * TENANT_ID={Your Tenant ID (find in the Aserto console in the "Policy configuration" section)}
