@@ -16,5 +16,4 @@
 
 [context.production]
   publish = "build/"
-  command = "yarn build"
-  environment = { REACT_APP_NETLIFY = "NETLIFY" }
+  command = "REACT_APP_NETLIFY=NETLIFY yarn build"
