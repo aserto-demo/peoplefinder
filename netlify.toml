@@ -15,4 +15,6 @@
   AUTHORIZER_API_KEY = "Aserto tenant API key"
 
 [context.production]
+  publish = "build/"
+  command = "yarn build"
   environment = { REACT_APP_NETLIFY = "NETLIFY" }
