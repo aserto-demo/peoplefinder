@@ -13,7 +13,8 @@
   REACT_APP_POLICY_NAME = "Policy name"
   TENANT_ID = "Aserto tenant ID"
   AUTHORIZER_API_KEY = "Aserto tenant API key"
+  REACT_APP_NETLIFY = "Netlify flag must be set to NETLIFY"
 
 [context.production]
   publish = "build/"
-  command = "REACT_APP_NETLIFY=NETLIFY yarn build"
+  command = "yarn build"
