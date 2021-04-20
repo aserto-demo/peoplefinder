@@ -22,7 +22,7 @@ module.exports = {
   port: process.env.API_PORT || 3001,
   appPort,
   appOrigin: process.env.APP_ORIGIN || `http://localhost:${appPort}`,
-  authorizerServiceUrl: process.env.REACT_APP_AUTHORIZER_SERVICE_URL || `https://authorizer.eng.aserto.com`,
+  authorizerServiceUrl: process.env.REACT_APP_AUTHORIZER_SERVICE_URL || `https://authorizer.prod.aserto.com`,
   authorizerApiKey: process.env.AUTHORIZER_API_KEY,
   tenantId: process.env.TENANT_ID,
   policyId: process.env.POLICY_ID,
