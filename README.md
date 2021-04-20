@@ -6,7 +6,7 @@
 
 This sample demonstrates the integration of the [Aserto Express middleware](https://github.com/aserto-dev/express-jwt-aserto) with an API, and the [Aserto React SDK](https://github.com/auth0/auth0-react) into a React application created using [create-react-app](https://reactjs.org/docs/create-a-new-react-app.html). 
 
-The sample shows how to secure an API (defined in `service/users-api.js`) using the [Aserto Express middleware](https://github.com/aserto-dev/express-jwt-aserto).
+The sample shows how to secure an API (defined in `service/users-api.js`) using the [Aserto Express middleware](https://github.com/aserto-dev/express-jwt-aserto). Refer to the Express middleware documentation for a deeper overview of how to use it.
 
 The Aserto React SDK helps solve a related problem: what UI elements should be rendered, and in what state, based on the logged-in user and the authorization policy they are subject to.
 
@@ -45,10 +45,11 @@ To do this, first copy `.env.example` into a new file in the same folder called 
 REACT_APP_DOMAIN={your Auth0 domain - e.g. in a form like `aserto-demo.us.auth0.com`}
 REACT_APP_CLIENT_ID={your Auth0 client ID}
 REACT_APP_AUDIENCE={the OAuth2 audience you configured for your API - e.g. `https://peoplefinder.sample`}
-REACT_APP_POLICY_NAME={the name you used for your policy - defaults to `peoplefinder`}
+REACT_APP_POLICY_ID={Your Policy ID - find in the Aserto console in the "Policy settings" section}
+REACT_APP_POLICY_ROOT={The policy root (the first component of the policy module name) - defaults to `peoplefinder`}
 
 # To use the Aserto hosted authorizer, provide an API key and Tenant ID
-AUTHORIZER_API_KEY={Your Authorizer API Key - find in the Aserto console in the "Policy configuration" section}
+AUTHORIZER_API_KEY={Your Authorizer API Key - find in the Aserto console in the "Policy settings" section}
 TENANT_ID={Your Tenant ID - find in the Aserto console in the "Policy configuration" section}
 
 # To use a local authorizer, instead of the two variables above, provide the service URL and cert file
@@ -85,7 +86,7 @@ yarn run build
 
 ### Deploy to Netlify
 
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/aserto-demo/peoplefinder#REACT_APP_AUDIENCE=https://express.sample&REACT_APP_POLICY_NAME=peoplefinder&REACT_APP_DOMAIN=your-Auth0-domain&REACT_APP_CLIENT_ID=your-Auth0-application-Client-ID&TENANT_ID=your-Aserto-tenant-ID&AUTHORIZER_API_KEY=your-Aserto-tenant-API-key&REACT_APP_NETLIFY=NETLIFY)
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/aserto-demo/peoplefinder#REACT_APP_AUDIENCE=https://express.sample&REACT_APP_POLICY_ROOT=peoplefinder&REACT_APP_DOMAIN=your-Auth0-domain&REACT_APP_CLIENT_ID=your-Auth0-application-Client-ID&TENANT_ID=your-Aserto-tenant-ID&POLICY_ID=your-Aserto-policy-ID&AUTHORIZER_API_KEY=your-Aserto-tenant-API-key&REACT_APP_NETLIFY=NETLIFY)
 
 The project is ready to deploy to Netlify. Just click the "Deploy to Netlify" badge on the repo, or fork the project and set up a Netlify deployment for it.
 
@@ -96,9 +97,11 @@ Also, in order to run properly, the environment variables found in `.env.example
 * REACT_APP_DOMAIN={your Auth0 domain - e.g. in a form like `aserto-demo.us.auth0.com`}
 * REACT_APP_CLIENT_ID={your Auth0 client ID}
 * REACT_APP_AUDIENCE={the OAuth2 audience you configured for your API - e.g. `https://express.sample`}
-* REACT_APP_POLICY_NAME={the name you used for your policy - e.g. `peoplefinder`}
-* AUTHORIZER_API_KEY={Your Authorizer API Key (find in the Aserto console in the "Policy configuration" section)}
-* TENANT_ID={Your Tenant ID (find in the Aserto console in the "Policy configuration" section)}
+* AUTHORIZER_API_KEY={Your Authorizer API Key (find in the Aserto console in the "Policy settings" section)}
+* TENANT_ID={Your Tenant ID (find in the Aserto console in the "Policy settings" section)}
+* POLICY_ID={Your Policy ID (find in the Aserto console in the "Policy settings" section)}
+* REACT_APP_POLICY_ROOT={policy root (the first component of the policy module name) - e.g. `peoplefinder`}
+* REACT_APP_NETLIFY=NETLIFY
 
 ### Building and running as a local docker image
 

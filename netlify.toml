@@ -10,9 +10,10 @@
   REACT_APP_DOMAIN = "Auth0 domain"
   REACT_APP_CLIENT_ID= "Auth0 Client ID"
   REACT_APP_AUDIENCE = "Auth0 API audience"
-  REACT_APP_POLICY_NAME = "Policy name"
   TENANT_ID = "Aserto tenant ID"
   AUTHORIZER_API_KEY = "Aserto tenant API key"
+  POLICY_ID = "Policy ID"
+  REACT_APP_POLICY_ROOT = "Policy root"
   REACT_APP_NETLIFY = "Netlify flag must be set to NETLIFY"
 
 [context.production]

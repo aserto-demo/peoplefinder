@@ -6,8 +6,9 @@ const {
   authorizerServiceUrl, 
   authorizerApiKey,
   tenantId,
+  policyId,
   authorizerCertFile, 
-  policyName, 
+  policyRoot, 
   audience, 
   domain 
 } = require('./config');
@@ -27,7 +28,8 @@ const checkJwt = jwt({
 
 const authzOptions = { 
   authorizerServiceUrl, 
-  policyName, 
+  policyId,
+  policyRoot, 
   useAuthorizationHeader: false 
 };
 if (authorizerApiKey) {

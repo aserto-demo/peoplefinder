@@ -23,9 +23,13 @@ exports.getUser = async (req, user) => {
     const url = `${authorizerServiceUrl}/api/v1/dir/users/${user}`;
     const headers = { 
       'content-type': 'application/json',
-      'aserto-tenant-id': tenantId,      
-      'authorization': `basic ${authorizerApiKey}`,
     };
+    if (tenantId) {
+      headers['aserto-tenant-id'] = tenantId;
+    }
+    if (authorizerApiKey) {
+      headers['authorization'] = `basic ${authorizerApiKey}`;
+    }
 
     const response = await axios.get(
       url,
@@ -47,9 +51,13 @@ exports.getUsers = async (req) => {
     const url = `${authorizerServiceUrl}/api/v1/dir/users?page.size=-1&fields.mask=id,display_name,picture,email`;
     const headers = { 
       'content-type': 'application/json',
-      'aserto-tenant-id': tenantId,      
-      'authorization': `basic ${authorizerApiKey}`,
     };
+    if (tenantId) {
+      headers['aserto-tenant-id'] = tenantId;
+    }
+    if (authorizerApiKey) {
+      headers['authorization'] = `basic ${authorizerApiKey}`;
+    }
 
     const response = await axios.get(
       url,
@@ -71,9 +79,13 @@ exports.updateUser = async (req, user, payload) => {
     const url = `${authorizerServiceUrl}/api/v1/dir/users/${user}`;
     const headers = { 
       'content-type': 'application/json',
-      'aserto-tenant-id': tenantId,      
-      'authorization': `basic ${authorizerApiKey}`,
     };
+    if (tenantId) {
+      headers['aserto-tenant-id'] = tenantId;
+    }
+    if (authorizerApiKey) {
+      headers['authorization'] = `basic ${authorizerApiKey}`;
+    }
 
     const response = await axios.put(
       url,
