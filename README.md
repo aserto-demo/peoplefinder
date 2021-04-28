@@ -45,7 +45,7 @@ To do this, first copy `.env.example` into a new file in the same folder called 
 REACT_APP_DOMAIN={your Auth0 domain - e.g. in a form like `aserto-demo.us.auth0.com`}
 REACT_APP_CLIENT_ID={your Auth0 client ID}
 REACT_APP_AUDIENCE={the OAuth2 audience you configured for your API - e.g. `https://peoplefinder.sample`}
-REACT_APP_POLICY_ID={Your Policy ID - find in the Aserto console in the "Policy settings" section}
+POLICY_ID={Your Policy ID - find in the Aserto console in the "Policy settings" section}
 REACT_APP_POLICY_ROOT={The policy root (the first component of the policy module name) - defaults to `peoplefinder`}
 
 # To use the Aserto hosted authorizer, provide an API key and Tenant ID
