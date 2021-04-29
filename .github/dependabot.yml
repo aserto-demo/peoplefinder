@@ -1,0 +1,41 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: weekly
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: helmet
+    versions:
+    - 4.4.1
+  - dependency-name: y18n
+    versions:
+    - 4.0.1
+  - dependency-name: jwks-rsa
+    versions:
+    - 1.12.2
+    - 1.12.3
+    - 2.0.1
+    - 2.0.2
+  - dependency-name: highlight.js
+    versions:
+    - 10.6.0
+    - 10.7.1
+  - dependency-name: react-bootstrap
+    versions:
+    - 1.4.3
+    - 1.5.0
+    - 1.5.1
+  - dependency-name: react-scripts
+    versions:
+    - 4.0.2
+  - dependency-name: "@fortawesome/free-solid-svg-icons"
+    versions:
+    - 5.15.2
+  - dependency-name: web-vitals
+    versions:
+    - 1.1.0
+  - dependency-name: node-notifier
+    versions:
+    - 8.0.1
