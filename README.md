@@ -46,14 +46,14 @@ REACT_APP_DOMAIN={your Auth0 domain - e.g. in a form like `aserto-demo.us.auth0.
 REACT_APP_CLIENT_ID={your Auth0 client ID}
 REACT_APP_AUDIENCE={the OAuth2 audience you configured for your API - e.g. `https://peoplefinder.sample`}
 POLICY_ID={Your Policy ID - find in the Aserto console in the "Policy settings" section}
-REACT_APP_POLICY_ROOT={The policy root (the first component of the policy module name) - defaults to `peoplefinder`}
+POLICY_ROOT={The policy root (the first component of the policy module name) - defaults to `peoplefinder`}
 
 # To use the Aserto hosted authorizer, provide an API key and Tenant ID
 AUTHORIZER_API_KEY={Your Authorizer API Key - find in the Aserto console in the "Policy settings" section}
 TENANT_ID={Your Tenant ID - find in the Aserto console in the "Policy configuration" section}
 
 # To use a local authorizer, instead of the two variables above, provide the service URL and cert file
-REACT_APP_AUTHORIZER_SERVICE_URL=https://localhost:8383
+AUTHORIZER_SERVICE_URL=https://localhost:8383
 AUTHORIZER_CERT_FILE=$HOME/.config/aserto/aserto-one/certs/gateway-ca.crt
 ```
 
@@ -86,7 +86,7 @@ yarn run build
 
 ### Deploy to Netlify
 
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/aserto-demo/peoplefinder#REACT_APP_AUDIENCE=https://express.sample&REACT_APP_POLICY_ROOT=peoplefinder&REACT_APP_DOMAIN=your-Auth0-domain&REACT_APP_CLIENT_ID=your-Auth0-application-Client-ID&TENANT_ID=your-Aserto-tenant-ID&POLICY_ID=your-Aserto-policy-ID&AUTHORIZER_API_KEY=your-Aserto-tenant-API-key&REACT_APP_NETLIFY=NETLIFY)
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/aserto-demo/peoplefinder#REACT_APP_AUDIENCE=https://express.sample&POLICY_ROOT=peoplefinder&REACT_APP_DOMAIN=your-Auth0-domain&REACT_APP_CLIENT_ID=your-Auth0-application-Client-ID&TENANT_ID=your-Aserto-tenant-ID&POLICY_ID=your-Aserto-policy-ID&AUTHORIZER_API_KEY=your-Aserto-tenant-API-key&REACT_APP_NETLIFY=NETLIFY)
 
 The project is ready to deploy to Netlify. Just click the "Deploy to Netlify" badge on the repo, or fork the project and set up a Netlify deployment for it.
 
@@ -100,12 +100,14 @@ Also, in order to run properly, the environment variables found in `.env.example
 * AUTHORIZER_API_KEY={Your Authorizer API Key (find in the Aserto console in the "Policy settings" section)}
 * TENANT_ID={Your Tenant ID (find in the Aserto console in the "Policy settings" section)}
 * POLICY_ID={Your Policy ID (find in the Aserto console in the "Policy settings" section)}
-* REACT_APP_POLICY_ROOT={policy root (the first component of the policy module name) - e.g. `peoplefinder`}
+* POLICY_ROOT={policy root (the first component of the policy module name) - e.g. `peoplefinder`}
 * REACT_APP_NETLIFY=NETLIFY
 
 ### Building and running as a local docker image
 
 Create a `.env.docker` (based on the `.env.example`) with the appropriate settings. If a local authorizer is to be used, the `Dockerfile` expects the `src/utils/gateway-ca.crt` to be the public key file for the gateway CA for that authorizer, and AUTHORIZER_CERT_FILE in `.env.docker` to be set to `src/utils/gateway-ca.crt`.
+
+Alternatively, you can take the `COPY --from=build /app/src/utils/gateway-ca.crt ./src/utils/gateway-ca.crt` directive out of the `Dockerfile` and instead inject the `ca.crt` file location at runtime (e.g. as a kubernetes secret) via the `AUTHORIZER_CERT_FILE` environment variable.
 
 `yarn run docker-build`: uses docker build to create a local container image
 `yarn run docker-run`: runs the docker container built using the command above with the name `peoplefinder`

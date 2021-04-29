@@ -14,7 +14,7 @@ const Hero = () =>
     <p>
       Version: {process.env.REACT_APP_VERSION || 'development'}
       <br />
-      Authorizer Service: <a href={config.authorizerServiceUrl} target='_'>{config.authorizerServiceUrl}</a>
+      Auth0 domain: <a href={`https://${config.domain}`} target='_'>{config.domain}</a>
     </p>
   </div>
 

@@ -2,7 +2,6 @@ const configuration = {
   domain: process.env.REACT_APP_DOMAIN,
   clientId: process.env.REACT_APP_CLIENT_ID,
   audience: process.env.REACT_APP_AUDIENCE,
-  authorizerServiceUrl: process.env.REACT_APP_AUTHORIZER_SERVICE_URL || 'https://authorizer.prod.aserto.com',
   apiOrigin: process.env.REACT_APP_API_ORIGIN
 }
 

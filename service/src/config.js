@@ -14,7 +14,7 @@ if (!authorizerCert) {
   }
 }
 
-const policyRoot = process.env.REACT_APP_POLICY_ROOT|| 'peoplefinder';
+const policyRoot = process.env.POLICY_ROOT|| 'peoplefinder';
 
 module.exports = {
   domain: process.env.REACT_APP_DOMAIN,
@@ -22,7 +22,7 @@ module.exports = {
   port: process.env.API_PORT || 3001,
   appPort,
   appOrigin: process.env.APP_ORIGIN || `http://localhost:${appPort}`,
-  authorizerServiceUrl: process.env.REACT_APP_AUTHORIZER_SERVICE_URL || `https://authorizer.prod.aserto.com`,
+  authorizerServiceUrl: process.env.AUTHORIZER_SERVICE_URL || `https://authorizer.prod.aserto.com`,
   authorizerApiKey: process.env.AUTHORIZER_API_KEY,
   tenantId: process.env.TENANT_ID,
   policyId: process.env.POLICY_ID,
