@@ -51,50 +51,70 @@ exports.register = (app) => {
   app.use(displayStateMap(authzOptions));
 
   // use checkAuthz as middleware in the route dispatch path
-  app.get("/api/users", checkJwt, checkAuthz, (req, res) => {
-    (async () => { res.status(200).send(await directory.getUsers(req)) })();
+  app.get("/api/users", checkJwt, checkAuthz, async (req, res) => {
+    const users = await directory.getUsers(req);
+    if (users) {
+      res.status(200).send(users);
+    } else {
+      res.status(403).send('something went wrong');
+    }
   });
 
-  app.get("/api/users/:id", checkJwt, checkAuthz, (req, res) => {
+  app.get("/api/users/:id", checkJwt, checkAuthz, async (req, res) => {
     const id = req.params.id;
-    (async () => { res.status(200).send(await directory.getUser(req, id)) })();
+    const user = await directory.getUser(req, id);
+    if (user) {
+      res.status(200).send(user);
+    } else {
+      res.status(403).send('something went wrong');
+    }
   });  
 
   // edit name and email
-  app.put("/api/users/:id", checkJwt, checkAuthz, (req, res) => {
+  app.put("/api/users/:id", checkJwt, checkAuthz, async (req, res) => {
     const user = req.body;
     const id = req.params.id;
-    (async () => { res.status(201).send(await directory.updateUser(req, id, user)) })();
+    const response = await directory.updateUser(req, id, user);
+    if (response) {
+      res.status(201).send(response);
+    } else {
+      res.status(403).send('something went wrong');
+    }
   });  
 
   // update department and title
-  app.post("/api/users/:id", checkJwt, checkAuthz, (req, res) => {
+  app.post("/api/users/:id", checkJwt, checkAuthz, async (req, res) => {
     const user = req.body;
     const id = req.params.id;
-    (async () => { res.status(201).send(await directory.updateUser(req, id, user)) })();
+    const response = await directory.updateUser(req, id, user);
+    if (response) {
+      res.status(201).send(response);
+    } else {
+      res.status(403).send('something went wrong');
+    }
   });  
 
   // delete the user
   // instead of checkAuthz, use the "is" function for a more imperative style of authorization
-  app.delete("/api/users/:id", checkJwt, /* checkAuthz,*/ (req, res) => {
+  app.delete("/api/users/:id", checkJwt, /* checkAuthz,*/ async (req, res) => {
     const id = req.params.id;
 
-    const check = async () => {
-      try {
-        // call the is('allowed') method, inferring the policy name and resource
-        const allowed = await is('allowed', req, authzOptions);
-        if (allowed) {
-          res.status(201).send(await directory.deleteUser(req, id));
+    try {
+      // call the is('allowed') method, inferring the policy name and resource
+      const allowed = await is('allowed', req, authzOptions);
+      if (allowed) {
+        const response = await directory.deleteUser(req, id);
+        if (response) {
+          res.status(201).send(response);
         } else {
-          res.status(403).send('Not Authorized');
+          res.status(403).send('something went wrong');
         }
-      }
-      catch (error) {
-        res.status(403).send(`Not Authorized: exception ${error.message}`);            
+      } else {
+        res.status(403).send('Not Authorized');
       }
     }
-
-    // invoke the async function
-    check();
+    catch (error) {
+      res.status(403).send(`Not Authorized: exception ${error.message}`);            
+    }
   });  
 }

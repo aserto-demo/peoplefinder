@@ -101,3 +101,9 @@ exports.updateUser = async (req, user, payload) => {
     return null;
   }
 }
+
+// delete a user
+exports.deleteUser = async (req, user) => {
+  // not implemented
+  return null;
+}
