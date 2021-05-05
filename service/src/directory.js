@@ -37,7 +37,7 @@ exports.getUser = async (req, user) => {
         headers: headers
       });
 
-    const result = response.data && response.data.results;
+    const result = response.data && response.data.result;
     return result;
   } catch (error) {
     console.error(`getUser: caught exception: ${error}`);
@@ -94,7 +94,7 @@ exports.updateUser = async (req, user, payload) => {
         headers: headers
       });
 
-    const result = response.data && response.data.results;
+    const result = response.data && response.data.result;
     return result;
   } catch (error) {
     console.error(`updateUser: caught exception: ${error}`);
