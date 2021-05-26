@@ -13,7 +13,7 @@ const { apiOrigin = "http://localhost:3001" } = config;
 // display state map resource path
 const resourcePath = '/api/users/__id';
 
-const attrKey = 'attr';
+const attrKey = 'attributes';
 // const attrKey = 'user_metadata'; //auth0
 
 const UserDetails = withRouter(({user, setUser, history}) => {
@@ -40,7 +40,7 @@ const UserDetails = withRouter(({user, setUser, history}) => {
 
       // prepare the payload
       const body = { ...user, display_name: name, email };
-      body[attrKey] = { ...user[attrKey], department, title };
+      body[attrKey].properties = { ...user[attrKey].properties, department, title };
 
       const headers = {
         Authorization: `Bearer ${token}`,
@@ -80,8 +80,8 @@ const UserDetails = withRouter(({user, setUser, history}) => {
       setter(true);
       setEmail(user.email || '');
       setName(user.display_name || '');
-      setDepartment(user[attrKey].department || '');
-      setTitle(user[attrKey].title || '');
+      setDepartment(user[attrKey].properties.department || '');
+      setTitle(user[attrKey].properties.title || '');
     }
   };
 
@@ -123,8 +123,8 @@ const UserDetails = withRouter(({user, setUser, history}) => {
     setError(null);
     setName(user.display_name);
     setEmail(user.email);
-    setDepartment(user[attrKey].department);
-    setTitle(user[attrKey].title);
+    setDepartment(user[attrKey].properties.department);
+    setTitle(user[attrKey].properties.title);
   };
 
   const impersonate = () => {
@@ -232,7 +232,7 @@ const UserDetails = withRouter(({user, setUser, history}) => {
               <h4>Department:</h4>
             </Col>
             <Col md>
-              <p className="lead text-muted">{user[attrKey].department}</p>
+              <p className="lead text-muted">{user[attrKey].properties.department}</p>
             </Col>
           </Row>
           <Row>
@@ -240,7 +240,7 @@ const UserDetails = withRouter(({user, setUser, history}) => {
               <h4>Title:</h4>
             </Col>
             <Col md>
-              <p className="lead text-muted">{user[attrKey].title}</p>
+              <p className="lead text-muted">{user[attrKey].properties.title}</p>
             </Col>
           </Row>
           <Row>
@@ -248,8 +248,8 @@ const UserDetails = withRouter(({user, setUser, history}) => {
               <h4>Manager:</h4>
             </Col>
             <Col md>
-              <Link to={`/people/${user[attrKey].manager}`} className="lead text-muted">
-                { managerName || user[attrKey].manager }
+              <Link to={`/people/${user[attrKey].properties.manager}`} className="lead text-muted">
+                { managerName || user[attrKey].properties.manager }
               </Link>
             </Col>
           </Row>
