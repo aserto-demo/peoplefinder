@@ -70,7 +70,7 @@ exports.register = (app) => {
     }
   });  
 
-  // edit name and email
+  // edit phone 
   app.put("/api/users/:id", checkJwt, checkAuthz, async (req, res) => {
     const user = req.body;
     const id = req.params.id;

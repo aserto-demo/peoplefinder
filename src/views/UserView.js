@@ -82,7 +82,7 @@ const UserView = () => {
         breadcrumbText='People'
         breadcrumbUrl='/people'
         load={load} loading={loading} />
-      <UserDetails user={user} setUser={setUser} />
+      <UserDetails user={user} setUser={setUser} loadUser={load} />
     </Container> :
     <div />
   )

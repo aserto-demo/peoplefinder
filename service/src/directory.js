@@ -76,7 +76,7 @@ exports.getUsers = async (req) => {
 // update a user
 exports.updateUser = async (req, user, payload) => {
   try {
-    const url = `${authorizerServiceUrl}/api/v1/dir/users/${user}`;
+    const url = `${authorizerServiceUrl}/api/v1/dir/users/${user}/attributes/properties`;
     const headers = { 
       'content-type': 'application/json',
     };
@@ -87,14 +87,14 @@ exports.updateUser = async (req, user, payload) => {
       headers['authorization'] = `basic ${authorizerApiKey}`;
     }
 
-    const response = await axios.put(
+    const response = await axios.post(
       url,
-      payload,
+      JSON.stringify(payload),
       {
         headers: headers
       });
 
-    const result = response.data && response.data.result;
+    const result = response.data;
     return result;
   } catch (error) {
     console.error(`updateUser: caught exception: ${error}`);

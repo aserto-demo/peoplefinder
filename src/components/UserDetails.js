@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { withRouter, Link } from 'react-router-dom'
 import { Container, Row, Col, InputGroup, FormControl, Modal } from 'react-bootstrap'
 import { useAuth0 } from '@auth0/auth0-react'
@@ -16,15 +16,14 @@ const resourcePath = '/api/users/__id';
 const attrKey = 'attributes';
 // const attrKey = 'user_metadata'; //auth0
 
-const UserDetails = withRouter(({user, setUser, history}) => {
+const UserDetails = withRouter(({user, setUser, loadUser, history}) => {
   const { getAccessTokenSilently } = useAuth0();
   const { getDisplayState, identity, setIdentity } = useAserto();
   const { users, loadUsers } = useUsers();
   const [showDetail, setShowDetail] = useState(false);
-  const [editing, setEditing] = useState(false);   // edit name property
-  const [updating, setUpdating] = useState(false); // update title and dept
-  const [name, setName] = useState();
-  const [email, setEmail] = useState();
+  const [editing, setEditing] = useState(false);   // edit phone property
+  const [updating, setUpdating] = useState(false); // update title and dept properties
+  const [phone, setPhone] = useState();
   const [department, setDepartment] = useState();
   const [title, setTitle] = useState();
   const [error, setError] = useState();
@@ -34,14 +33,18 @@ const UserDetails = withRouter(({user, setUser, history}) => {
   const manager = users && managerId && users.find(u => u.id === managerId);
   const managerName = manager && manager.display_name;
 
-  const update = async (method) => {
+  useEffect(() => {
+    setPhone(user[attrKey].properties.phone || '');
+    setDepartment(user[attrKey].properties.department || '');
+    setTitle(user[attrKey].properties.title || '');
+  }, [user])
+
+  const update = async (method, key, value) => {
     try {
       const token = await getAccessTokenSilently();
 
       // prepare the payload
-      const body = { ...user, display_name: name, email };
-      body[attrKey].properties = { ...user[attrKey].properties, department, title };
-
+      const body = { key, value };
       const headers = {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json'
@@ -61,8 +64,17 @@ const UserDetails = withRouter(({user, setUser, history}) => {
         return;
       }
 
-      const userData = await response.json();
-      setUser(userData);
+      //const userData = await response.json();
+
+      // no error - optimisticly set the modified attribute on the user
+      const u = { ...user };
+      u.attributes = u.attributes || {};
+      u.attributes.properties = { ...u.attributes.properties };
+      u.attributes.properties[key] = value;
+      setUser(u);
+
+      // reload the user, just to make sure we have the correct data
+      loadUser();
     } catch (error) {
       setUser(null);
       setError(error);
@@ -70,19 +82,10 @@ const UserDetails = withRouter(({user, setUser, history}) => {
   };  
 
   // used for both edit and update (PUT and POST)
-  const updateUser = (getter, setter, method) => {
+  const updateUser = async (setter, method, field, value) => {
     // if in update mode, call the update function
-    if (getter) {
-      setter(false);
-      update(method);
-    } else {
-      // set update mode
-      setter(true);
-      setEmail(user.email || '');
-      setName(user.display_name || '');
-      setDepartment(user[attrKey].properties.department || '');
-      setTitle(user[attrKey].properties.title || '');
-    }
+    await update(method, field, value);
+    setter(false);
   };
 
   const deleteUser = () => {
@@ -121,8 +124,7 @@ const UserDetails = withRouter(({user, setUser, history}) => {
   const hide = () => {
     // reset state
     setError(null);
-    setName(user.display_name);
-    setEmail(user.email);
+    setPhone(user[attrKey].properties.phone);
     setDepartment(user[attrKey].properties.department);
     setTitle(user[attrKey].properties.title);
   };
@@ -153,36 +155,44 @@ const UserDetails = withRouter(({user, setUser, history}) => {
             className="rounded-circle img-fluid profile-picture mb-3 mb-md-0"
           />
         </Col>
-        <Col md={4}>
+        <Col md={5}>
+          <h2>{user.display_name}</h2>
+          <p className="lead text-muted">{user.email}</p>
+          <h5>Manager: 
+            <Link to={`/people/${user[attrKey].properties.manager}`} className="lead text-muted">
+              { managerName || user[attrKey].properties.manager }
+            </Link>
+          </h5>
+
           { editing ? 
-            <div>
               <InputGroup>
                 <InputGroup.Prepend>
-                  <InputGroup.Text style={{ minWidth: 60 }}>Name</InputGroup.Text>
+                  <InputGroup.Text style={{ minWidth: 60 }}>Phone</InputGroup.Text>
                 </InputGroup.Prepend>
-                <FormControl value={name} onChange={(e) => setName(e.target.value)} />
-              </InputGroup>
-              <br />
-              <InputGroup>
-                <InputGroup.Prepend>
-                  <InputGroup.Text style={{ minWidth: 60 }}>Email</InputGroup.Text>
-                </InputGroup.Prepend>
-                <FormControl value={email} onChange={(e) => setEmail(e.target.value)} />
-              </InputGroup>        
-            </div> :
-            <div>
-              <h2>{user.display_name}</h2>
-              <p className="lead text-muted">{user.email}</p>
-            </div>
+                <FormControl value={phone} onChange={(e) => setPhone(e.target.value)} />
+                <InputGroup.Append>
+                  <Button 
+                    style={{ width: 110 }} 
+                    displayState={display}
+                    onClick={() => updateUser(setEditing, 'PUT', 'phone', phone)}
+                  >
+                    Save
+                  </Button>
+                </InputGroup.Append>
+              </InputGroup> :
+              <div style={{ display: 'flex' }}>
+                <h5>Phone: &nbsp;&nbsp;</h5>
+                <p className="text-muted">{user[attrKey].properties.phone}</p>
+              </div>
           }
         </Col>
-        <Col md>
+        <Col md={5}>
           <Button 
             style={{ marginRight: 30, width: 110 }} 
             displayState={getDisplayState('PUT', resourcePath)} 
-            onClick={() => updateUser(editing, setEditing, 'PUT')}
+            onClick={() => setEditing(!editing)}
           >
-            { editing ? 'Save' : 'Edit' }
+            { editing ? 'Cancel' : 'Edit' }
           </Button>
           <Button 
             style={{ marginRight: 30, width: 115 }} 
@@ -210,6 +220,15 @@ const UserDetails = withRouter(({user, setUser, history}) => {
                   <InputGroup.Text style={{ minWidth: 120 }}>Department</InputGroup.Text>
                 </InputGroup.Prepend>
                 <FormControl value={department} onChange={(e) => setDepartment(e.target.value)} />
+                <InputGroup.Append>
+                  <Button 
+                    style={{ width: 110 }} 
+                    displayState={display}
+                    onClick={() => updateUser(setUpdating, 'POST', 'department', department)}
+                  >
+                    Save
+                  </Button>
+                </InputGroup.Append>
               </InputGroup>
             </Col>
           </Row>
@@ -221,6 +240,15 @@ const UserDetails = withRouter(({user, setUser, history}) => {
                   <InputGroup.Text style={{ minWidth: 120 }}>Title</InputGroup.Text>
                 </InputGroup.Prepend>
                 <FormControl value={title} onChange={(e) => setTitle(e.target.value)} />
+                <InputGroup.Append>
+                  <Button 
+                    style={{ width: 110 }} 
+                    displayState={display}
+                    onClick={() => updateUser(setUpdating, 'POST', 'title', title)}
+                  >
+                    Save
+                  </Button>
+                </InputGroup.Append>
               </InputGroup>        
             </Col>
           </Row>
@@ -229,28 +257,18 @@ const UserDetails = withRouter(({user, setUser, history}) => {
         <div>
           <Row>
             <Col md={2}>
-              <h4>Department:</h4>
+              <h5>Department:</h5>
             </Col>
             <Col md>
-              <p className="lead text-muted">{user[attrKey].properties.department}</p>
+              <p className="text-muted">{user[attrKey].properties.department}</p>
             </Col>
           </Row>
           <Row>
             <Col md={2}>
-              <h4>Title:</h4>
+              <h5>Title:</h5>
             </Col>
             <Col md>
-              <p className="lead text-muted">{user[attrKey].properties.title}</p>
-            </Col>
-          </Row>
-          <Row>
-            <Col md={2}>
-              <h4>Manager:</h4>
-            </Col>
-            <Col md>
-              <Link to={`/people/${user[attrKey].properties.manager}`} className="lead text-muted">
-                { managerName || user[attrKey].properties.manager }
-              </Link>
+              <p className="text-muted">{user[attrKey].properties.title}</p>
             </Col>
           </Row>
         </div>
@@ -263,9 +281,9 @@ const UserDetails = withRouter(({user, setUser, history}) => {
           <Button 
             style={{ width: 110 }} 
             displayState={getDisplayState('POST', resourcePath)} 
-            onClick={() => updateUser(updating, setUpdating, 'POST')}
+            onClick={() => setUpdating(true)}
           >
-            {updating ? 'Save' : 'Update' }
+            Update
           </Button>
         </Col>
         <Col md={2}>
