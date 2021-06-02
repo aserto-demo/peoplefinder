@@ -5130,12 +5130,13 @@ expect@^26.6.0, expect@^26.6.2:
     jest-message-util "^26.6.2"
     jest-regex-util "^26.0.0"
 
-express-jwt-aserto@^1.0.62:
-  version "1.0.62"
-  resolved "https://registry.yarnpkg.com/express-jwt-aserto/-/express-jwt-aserto-1.0.62.tgz#8a464e4ec357eb594c1381e577cf61576d8f9636"
-  integrity sha512-o0VKAM0d0N36ZLbaYaR+LlyjnM9Hb4TLjv7bou8MhtBho/ycGFhHX6hHrK1MaHm3+Pz8AHmXpIDGcCEVAoz0Bw==
+express-jwt-aserto@^1.0.63:
+  version "1.0.63"
+  resolved "https://registry.yarnpkg.com/express-jwt-aserto/-/express-jwt-aserto-1.0.63.tgz#f1c2543b0e371c54ccfe9f07f3dd86d4072721b3"
+  integrity sha512-oZdk/VKVB7y4HvviVYqY8ufqiSh0Q15oqtOnqpwExhWvZ4PO2b8udV3vBI9SgpUBVVFmrerTyZrRayMxktblGw==
   dependencies:
     axios "^0.21.1"
+    jwt-decode "^3.1.2"
 
 express-jwt@^6.0.0:
   version "6.0.0"
@@ -7340,6 +7341,11 @@ jws@^3.2.2:
   dependencies:
     jwa "^1.4.1"
     safe-buffer "^5.0.1"
+
+jwt-decode@^3.1.2:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/jwt-decode/-/jwt-decode-3.1.2.tgz#3fb319f3675a2df0c2895c8f5e9fa4b67b04ed59"
+  integrity sha512-UfpWE/VZn0iP50d8cz9NrZLM9lSWhcJ+0Gt/nm4by88UL+J1SiKN8/5dkjMmbEzwL2CAe+67GsegCbIKtbp75A==
 
 keyv@^3.0.0:
   version "3.1.0"

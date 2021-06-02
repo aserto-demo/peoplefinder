@@ -30,7 +30,6 @@ const authzOptions = {
   authorizerServiceUrl, 
   policyId,
   policyRoot, 
-  useAuthorizationHeader: false 
 };
 if (authorizerApiKey) {
   authzOptions.authorizerApiKey = authorizerApiKey;
