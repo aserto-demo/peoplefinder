@@ -29,7 +29,7 @@ const UserDetails = withRouter(({user, setUser, loadUser, history}) => {
   const [error, setError] = useState();
 
   // retrieve the manager name
-  const managerId = user && user[attrKey] && user[attrKey].manager;
+  const managerId = user && user[attrKey] && user[attrKey].properties.manager;
   const manager = users && managerId && users.find(u => u.id === managerId);
   const managerName = manager && manager.display_name;
 
@@ -158,11 +158,11 @@ const UserDetails = withRouter(({user, setUser, loadUser, history}) => {
         <Col md={5}>
           <h2>{user.display_name}</h2>
           <p className="lead text-muted">{user.email}</p>
-          <h5>Manager: 
-            <Link to={`/people/${user[attrKey].properties.manager}`} className="lead text-muted">
+          <h4>Manager: &nbsp;
+            <Link to={`/people/${user[attrKey].properties.manager}`}>
               { managerName || user[attrKey].properties.manager }
             </Link>
-          </h5>
+          </h4>
 
           { editing ? 
               <InputGroup>
@@ -181,8 +181,8 @@ const UserDetails = withRouter(({user, setUser, loadUser, history}) => {
                 </InputGroup.Append>
               </InputGroup> :
               <div style={{ display: 'flex' }}>
-                <h5>Phone: &nbsp;&nbsp;</h5>
-                <p className="text-muted">{user[attrKey].properties.phone}</p>
+                <h4>Phone: &nbsp;&nbsp;</h4>
+                <p className="lead text-muted">{user[attrKey].properties.phone}</p>
               </div>
           }
         </Col>
@@ -257,18 +257,18 @@ const UserDetails = withRouter(({user, setUser, loadUser, history}) => {
         <div>
           <Row>
             <Col md={2}>
-              <h5>Department:</h5>
+              <h4>Department:</h4>
             </Col>
             <Col md>
-              <p className="text-muted">{user[attrKey].properties.department}</p>
+              <p className="lead text-muted">{user[attrKey].properties.department}</p>
             </Col>
           </Row>
           <Row>
             <Col md={2}>
-              <h5>Title:</h5>
+              <h4>Title:</h4>
             </Col>
             <Col md>
-              <p className="text-muted">{user[attrKey].properties.title}</p>
+              <p className="lead text-muted">{user[attrKey].properties.title}</p>
             </Col>
           </Row>
         </div>
