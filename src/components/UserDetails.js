@@ -281,9 +281,9 @@ const UserDetails = withRouter(({user, setUser, loadUser, history}) => {
           <Button 
             style={{ width: 110 }} 
             displayState={getDisplayState('POST', resourcePath)} 
-            onClick={() => setUpdating(true)}
+            onClick={() => setUpdating(!updating)}
           >
-            Update
+          { updating ? 'Cancel' : 'Update' }
           </Button>
         </Col>
         <Col md={2}>
