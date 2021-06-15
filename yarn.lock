@@ -5130,10 +5130,10 @@ expect@^26.6.0, expect@^26.6.2:
     jest-message-util "^26.6.2"
     jest-regex-util "^26.0.0"
 
-express-jwt-aserto@^1.0.63:
-  version "1.0.63"
-  resolved "https://registry.yarnpkg.com/express-jwt-aserto/-/express-jwt-aserto-1.0.63.tgz#f1c2543b0e371c54ccfe9f07f3dd86d4072721b3"
-  integrity sha512-oZdk/VKVB7y4HvviVYqY8ufqiSh0Q15oqtOnqpwExhWvZ4PO2b8udV3vBI9SgpUBVVFmrerTyZrRayMxktblGw==
+express-jwt-aserto@^1.0.67:
+  version "1.0.67"
+  resolved "https://registry.yarnpkg.com/express-jwt-aserto/-/express-jwt-aserto-1.0.67.tgz#b8402797743e67107ca920176b27c69b1d8a4f98"
+  integrity sha512-VDKHola78B/M50x46ChS3t7N2TmkxGxMGxY7OouLtQMyP3N0HLVkNBM/ZUjMxacrUfIDputrxx5IDuPw3KGaUg==
   dependencies:
     axios "^0.21.1"
     jwt-decode "^3.1.2"
