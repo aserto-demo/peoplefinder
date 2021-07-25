@@ -2,17 +2,17 @@
 # yarn lockfile v1
 
 
-"@aserto/aserto-react@0.1.48":
-  version "0.1.48"
-  resolved "https://registry.yarnpkg.com/@aserto/aserto-react/-/aserto-react-0.1.48.tgz#0c6b5693d9e0e4775db47b55c14c3826b0c3bdd0"
-  integrity sha512-VTl6NdibqtQgJ0B1S3PGUc9gy5sMaH5RnSWryj0xGx1rmgqszaLXDvefzWg6BD81N8dlQcusJYIArxT6s5iOYQ==
+"@aserto/aserto-react@0.1.50":
+  version "0.1.50"
+  resolved "https://registry.yarnpkg.com/@aserto/aserto-react/-/aserto-react-0.1.50.tgz#5d2c7d1cd760f9c9c6a4d75bebec6a2eddd6ba31"
+  integrity sha512-ehPyuYfEA5ABxl7ajSzeOy/lLI5ZwwN4l8ns3pxAkz9npU+mXWMMRCKZcGGcTk28T00VSttoqOdPEIa5vVsBAw==
   dependencies:
-    "@aserto/aserto-spa-js" "^0.1.26"
+    "@aserto/aserto-spa-js" "^0.1.27"
 
-"@aserto/aserto-spa-js@^0.1.26":
-  version "0.1.26"
-  resolved "https://registry.yarnpkg.com/@aserto/aserto-spa-js/-/aserto-spa-js-0.1.26.tgz#81ca194b365263360113fc1bbce2a0383ca137e9"
-  integrity sha512-2jfkWQFiWpxnbzAjgUJNy9Dgj3DZigOefTwlU6ctuQDMk+fzjeCDiqEI+gW3DCo9Uttk5s1crzlBSct8K/0URA==
+"@aserto/aserto-spa-js@^0.1.27":
+  version "0.1.27"
+  resolved "https://registry.yarnpkg.com/@aserto/aserto-spa-js/-/aserto-spa-js-0.1.27.tgz#8a3df02f80b9ac7d41d007b00a7f386a73a36cd9"
+  integrity sha512-0+UxvnXXqapk/eUK/oLOJjNhZ7ky2FQRIpZUAMPAFMPmgNWE0Tm4ZYecV93K2jB/sGFsSdBT90z54BBrq0Mkdg==
 
 "@auth0/auth0-react@^1.2.0":
   version "1.2.0"
@@ -5130,10 +5130,10 @@ expect@^26.6.0, expect@^26.6.2:
     jest-message-util "^26.6.2"
     jest-regex-util "^26.0.0"
 
-express-jwt-aserto@^1.0.68:
-  version "1.0.68"
-  resolved "https://registry.yarnpkg.com/express-jwt-aserto/-/express-jwt-aserto-1.0.68.tgz#af040c13697a5754d907654a3fabb9c118dc5003"
-  integrity sha512-IPp0m3hyHM9ISyKghBjYNS9VFldIt0zSoBOugck+iCR5uA3QTB5m2Ad3hNdBR12T0nLbmRjEAf2o4FBIcAXTpQ==
+express-jwt-aserto@^1.0.69:
+  version "1.0.69"
+  resolved "https://registry.yarnpkg.com/express-jwt-aserto/-/express-jwt-aserto-1.0.69.tgz#f49d6b81dd0144f2ac3c097ac81960b5921d9426"
+  integrity sha512-i+cx2Tremo//yF6EdIIcknV3SEU/IkkbybjYiJLecHTuSaaW1UmcByYYOEjTxiwMPl96j6sPbDSZy5MIyyIF5g==
   dependencies:
     axios "^0.21.1"
     jwt-decode "^3.1.2"

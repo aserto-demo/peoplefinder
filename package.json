@@ -3,7 +3,7 @@
   "version": "0.1.17",
   "private": true,
   "dependencies": {
-    "@aserto/aserto-react": "0.1.48",
+    "@aserto/aserto-react": "0.1.50",
     "@auth0/auth0-react": "^1.2.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.32",
     "@fortawesome/free-solid-svg-icons": "^5.15.1",
@@ -16,7 +16,7 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-jwt": "^6.0.0",
-    "express-jwt-aserto": "^1.0.68",
+    "express-jwt-aserto": "^1.0.69",
     "font-awesome": "^4.7.0",
     "helmet": "^4.3.1",
     "highlight.js": "^10.5.0",
