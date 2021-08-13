@@ -99,7 +99,7 @@ const UserDetails = withRouter(({user, setUser, loadUser, history}) => {
         if (identity) {
           headers.identity = identity;
         }
-        const response = await fetch(`${apiOrigin}/api/users/${user.user_id}`, {
+        const response = await fetch(`${apiOrigin}/api/users/${user.id}`, {
           headers,
           method: 'DELETE'
         });
