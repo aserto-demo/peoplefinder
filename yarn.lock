@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@aserto/aserto-react@0.1.50":
-  version "0.1.50"
-  resolved "https://registry.yarnpkg.com/@aserto/aserto-react/-/aserto-react-0.1.50.tgz#5d2c7d1cd760f9c9c6a4d75bebec6a2eddd6ba31"
-  integrity sha512-ehPyuYfEA5ABxl7ajSzeOy/lLI5ZwwN4l8ns3pxAkz9npU+mXWMMRCKZcGGcTk28T00VSttoqOdPEIa5vVsBAw==
+"@aserto/aserto-react@0.1.51":
+  version "0.1.51"
+  resolved "https://registry.yarnpkg.com/@aserto/aserto-react/-/aserto-react-0.1.51.tgz#8bf4802efab996cc1fab00cbf592073d3d3af14f"
+  integrity sha512-YOsE9W/uUHMUNgTN5nRDs6n/xyKrtyptCIAgEPav6nvLaQ8RFIijpITql0Xqsk0xK3CgSSGLQcm+orTDlWolsg==
   dependencies:
     "@aserto/aserto-spa-js" "^0.1.27"
 
