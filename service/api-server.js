@@ -10,7 +10,16 @@ const { join } = require("path");
 const isNetlify = process.env.NETLIFY || process.env.REACT_APP_NETLIFY;
 
 // retrieve configuration
-const { port, authorizerServiceUrl, policyRoot, domain } = require('./src/config');
+const { 
+  port, 
+  authorizerServiceUrl, 
+  policyRoot, 
+  policyId, 
+  domain,
+  audience,
+  tenantId,
+  authorizerCertFile
+} = require('./src/config');
 
 const app = express();
 const router = express.Router();
@@ -31,9 +40,17 @@ users.register(router);
 app.use(routerBasePath, router);
 
 // log some config values
-console.log(`Policy root: ${policyRoot}`);
 console.log(`Authorizer: ${authorizerServiceUrl}`);
+console.log(`Policy ID: ${policyId}`);
+console.log(`Policy root: ${policyRoot}`);
 console.log(`Auth0 domain: ${domain}`);
+console.log(`Auth0 audience: ${audience}`);
+if (tenantId) {
+  console.log(`Tenant ID: ${tenantId}`);
+}
+if (authorizerCertFile) {
+  console.log(`Authorizer Cert file: ${authorizerCertFile}`);
+}
 
 // make it work with netlify functions
 if (isNetlify) {
