@@ -14,7 +14,7 @@ if (!authorizerCert) {
   }
 }
 
-const policyRoot = process.env.POLICY_ROOT|| 'peoplefinder';
+const policyRoot = process.env.REACT_APP_POLICY_ROOT|| 'peoplefinder';
 
 module.exports = {
   domain: process.env.REACT_APP_DOMAIN,

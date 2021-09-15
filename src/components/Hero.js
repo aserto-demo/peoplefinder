@@ -15,6 +15,8 @@ const Hero = () =>
       Version: {process.env.REACT_APP_VERSION || 'development'}
       <br />
       Auth0 domain: <a href={`https://${config.domain}`} target='_'>{config.domain}</a>
+      <br />
+      Policy root: {config.policyRoot}
     </p>
   </div>
 

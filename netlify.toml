@@ -10,7 +10,7 @@
   REACT_APP_DOMAIN = "Auth0 domain"
   REACT_APP_CLIENT_ID= "Auth0 Client ID"
   REACT_APP_AUDIENCE = "Auth0 API audience"
-  POLICY_ROOT = "Policy root"
+  REACT_APP_POLICY_ROOT = "Policy root"
   POLICY_ID = "Policy ID"
   TENANT_ID = "Aserto tenant ID"
   AUTHORIZER_API_KEY = "Aserto authorizer API key"

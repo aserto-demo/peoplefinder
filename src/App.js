@@ -18,7 +18,10 @@ import UserView from './views/UserView'
 import './App.css'
 
 // get api origin from config
-const { apiOrigin = "http://localhost:3001" } = config;
+const {
+  apiOrigin = "http://localhost:3001",
+  policyRoot = "peoplefinder"
+} = config;
 
 function App() {
   const { isLoading, error, isAuthenticated, getAccessTokenSilently } = useAuth0();
@@ -34,6 +37,7 @@ function App() {
           await init({ 
             serviceUrl: apiOrigin, 
             accessToken: token, 
+            policyRoot,
             throwOnError: false 
           });
         }
