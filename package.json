@@ -3,7 +3,7 @@
   "version": "0.1.22",
   "private": true,
   "dependencies": {
-    "@aserto/aserto-react": "0.1.52",
+    "@aserto/aserto-react": "0.2.2",
     "@auth0/auth0-react": "^1.2.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.32",
     "@fortawesome/free-solid-svg-icons": "^5.15.1",
