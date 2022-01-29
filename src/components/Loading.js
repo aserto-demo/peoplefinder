@@ -1,9 +1,16 @@
-import React from 'react'
-import loading from '../assets/loading.svg'
+import React from "react";
+import loading from "../assets/loading.svg";
 
-const Loading = () =>
+const Loading = () => (
   <div className="spinner">
     <img src={loading} alt="Loading" />
   </div>
+);
 
-export default Loading
+export const LoadingSpinner = () => (
+  <div className="spinner-loading">
+    <img src={loading} alt="Loading" />
+  </div>
+);
+
+export default Loading;
