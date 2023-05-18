@@ -34,7 +34,7 @@ ARG CACHEBUST=1
 COPY --from=build /app/build ./build
 COPY --from=build /app/src/utils/gateway-ca.crt ./src/utils/gateway-ca.crt
 COPY --from=build /app/.env.docker ./.env
-COPY --from=build /app/server.js .
+COPY --from=build /app/client-server.js .
 COPY --from=build /app/service ./service
 
 EXPOSE 3000

@@ -32,14 +32,14 @@
     "web-vitals": "^0.2.4"
   },
   "scripts": {
-    "start": "npm-run-all --parallel spa server",
+    "start": "npm-run-all --parallel spa api-server",
     "build": "REACT_APP_VERSION=$npm_package_version react-scripts build",
     "build-docker-bundle": "sh -ac '. ./.env.docker; REACT_APP_VERSION=$npm_package_version react-scripts build'",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "spa": "react-scripts start",
-    "server": "node server.js",
-    "server:dev": "nodemon server.js",
+    "client-server": "node client-server.js",
+    "client-server:dev": "nodemon client-server.js",
     "api-server": "node service/api-server.js",
     "api-server:dev": "nodemon service/api-server.js",
     "docker-build": "scripts/build-local.sh",
